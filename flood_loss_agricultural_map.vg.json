@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Flood Losses of Agriculture Sector by State (2024)",
+    "text": "Flood Losses of Agriculture Sector by State",
     "subtitle": "Total loss across all categories in RM'000",
     "font": "Lora",
     "fontStyle": "normal",
@@ -13,6 +13,23 @@
   "width": 800,
   "height": 400,
   "projection": {"type": "mercator"},
+  "params": [
+    {
+        "name": "year_select",
+        "value": 2024,
+        "bind": {
+            "input": "select",
+            "options": [
+                2024, 2025
+            ],
+            "labels": [
+                "2024",
+                "2025"
+            ],
+            "name": "Select Year: "
+        }
+    }
+  ],
   "data": {
     "url": "malaysia_map.json",
     "format": {"type": "topojson", "feature": "ne_10m_admin_1_states_provinces"}
@@ -37,21 +54,23 @@
     },
     {
         "transform": [
+            {
+                "calculate": "datum.properties.name + '_' + toString(year_select)",
+                "as": "state_year_key"
+            },
         {
-            "lookup": "properties.name",
+            "lookup": "state_year_key",
             "from": {
-                "data": {
-                    "url": "cleaned_floodloss_agricultural.csv"
-                },
-                "key": "State",
-                "fields": ["Total_loss_2024"]
+                "data": {"url": "cleaned_floodloss_agricultural.csv"},
+                "key": "State_Year",
+                "fields": ["Total Loss", "Year"]
             }
         }
         ],
         "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1},
         "encoding": {
             "color": {
-            "field": "Total_loss_2024",
+            "field": "Total Loss",
             "type": "quantitative",
             "scale": {
                 "type": "sqrt",
@@ -60,8 +79,9 @@
         },
             "tooltip": [
             {"field": "properties.name", "type": "nominal", "title": "State"},
+            {"field": "Year", "type": "ordinal", "title": "Year"},
             {
-                "field": "Total_loss_2024", 
+                "field": "Total Loss", 
                 "type": "quantitative", 
                 "title": "Total Loss (RM '000)", 
                 "format": ",d"}
