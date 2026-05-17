@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monsoon Inpact</title>
+
+    <scriptsrc="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+    <scriptsrc="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+    <scriptsrc="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+    <scriptsrc="vega_lite_vis.js"></script>
+
+    <style>
+        body{
+            font-family: "Inter", sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rbga(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id=""vis-map"></div>
+    </div>
+
+    <script>
+        vegaEmbed('#vis-map', 'flood_loss_agricultural_map.json')
+        .then(result => console.log("Map rendered sucessfully"))
+        .catch(console.error);
+    </script>
+    
+</body>
+</html>
