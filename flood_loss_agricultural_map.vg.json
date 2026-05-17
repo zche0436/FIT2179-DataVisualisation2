@@ -1,14 +1,14 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Annual Monsoon Rainfall Intensity by State (2024)",
-    "subtitle": "Total precipitation in mm",
+    "text": "Flood Losses of Agriculture Sector by State (2024)",
+    "subtitle": "Total loss across all categories in RM'000",
     "font": "Lora",
     "fontStyle": "normal",
-    "fontSize": 18,
+    "fontSize": 24,
     "anchor": "start",
     "subtitleFont": "Inter",
-    "subtitleFontSize": 12
+    "subtitleFontSize": 18
   },
   "width": 800,
   "height": 400,
@@ -53,7 +53,9 @@
             "color": {
             "field": "Total_loss_2024",
             "type": "quantitative",
-            "scale": {"scheme": "reds"},
+            "scale": {
+                "type": "sqrt",
+                "range": ["#ffffff", "#67000d"]},
             "title": "Loss (RM '000)"
         },
             "tooltip": [
