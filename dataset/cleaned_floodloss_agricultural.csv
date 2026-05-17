@@ -1,15 +1,15 @@
-State,Loss_2024_RM
-Johor,2430
-Kedah,118210
-Kelantan,22444
-Melaka,472
-Negeri Sembilan,1210
-Pahang,8807
-Pulau Pinang,63
-Perak,312
-Perlis,176
-Selangor,1870
-Terengganu,6132
-Sabah,44
-Sarawak,453
-Kuala Lumpur,0
+State,Paddy,Crops,Fisheries,Livestock,Fisherman,Agro-entrepreneur,High_Value_Commodity,Total_loss_2024
+Johor,0,725,1635,52,0,18,0,2430
+Kedah,117474,347,27,269,0,4,89,118210
+Kelantan,10374,8544,1020,2159,0,346,0,22444
+Melaka,0,230,145,97,0,0,0,472
+Negeri Sembilan,0,699,443,68,0,0,0,1210
+Pahang,0,2156,6462,190,0,0,0,8807
+Pulau Pinang,0,11,50,0,0,2,0,63
+Perak,0,137,150,26,0,0,0,312
+Perlis,0,167,0,0,0,9,0,176
+Selangor,0,1699,171,0,0,0,0,1870
+Terengganu,0,2069,2769,1294,0,0,0,6132
+Sabah,0,0,0,44,0,0,0,44
+Sarawak,0,444,10,0,0,0,0,453
+Kuala Lumpur,0,0,0,0,0,0,0,0

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Annual Monsoon Rainfall Intensity by State (2024)",
+    "subtitle": "Total precipitation in mm",
+    "font": "Lora",
+    "fontStyle": "normal",
+    "fontSize": 18,
+    "anchor": "start",
+    "subtitleFont": "Inter",
+    "subtitleFontSize": 12
+  },
+  "width": 800,
+  "height": 400,
+  "projection": {"type": "mercator"},
+  "data": {
+    "url": "malaysia_map.json",
+    "format": {"type": "topojson", "feature": "ne_10m_admin_1_states_provinces"}
+  },
+  "layer":[
+    {
+        "transform": [
+            {
+                "calculate": "'Data not available in ' + datum.properties.name",
+                "as": "fallback_note"
+            }
+        ],
+        "mark": {
+            "type": "geoshape",
+            "fill": "#eaeaea",
+            "stroke": "#ffffff",
+            "strokeWidth": 1.2
+        },
+        "encoding": {
+            "tooltip": {"field": "fallback_note", "type": "nominal"}
+        }
+    },
+    {
+        "transform": [
+        {
+            "lookup": "properties.name",
+            "from": {
+                "data": {
+                    "url": "cleaned_floodloss_agricultural.csv"
+                },
+                "key": "State",
+                "fields": ["Total_loss_2024"]
+            }
+        }
+        ],
+        "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1},
+        "encoding": {
+            "color": {
+            "field": "Total_loss_2024",
+            "type": "quantitative",
+            "scale": {"scheme": "reds"},
+            "title": "Loss (RM '000)"
+        },
+            "tooltip": [
+            {"field": "properties.name", "type": "nominal", "title": "State"},
+            {
+                "field": "Total_loss_2024", 
+                "type": "quantitative", 
+                "title": "Total Loss (RM '000)", 
+                "format": ",d"}
+            ]
+        }
+    }
+  ],
+  "config": {"font": "Inter"}
+}
