@@ -7,9 +7,9 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@600&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.6.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.0"></script>
 
 
     <style>
@@ -37,11 +37,16 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             border: 1px solid #e2e8f0;
-            width: 1000px;
+            width: fit-content;
+        }
+        .card-row{
+            display: flex;
+            gap: 24px;
+            justify-content: center;
         }
 
-        #vis-map,
-        #vis-bar {
+        #vis-map, #vis-bar,
+        #vis-grouped, #vis-slope {
             width: 100%;
         }
     </style>
@@ -55,6 +60,15 @@
         <div class="card">
             <div id="vis-bar"></div>
         </div>
+
+        <div class="card-row">
+            <div class="card">
+                <div id="vis-grouped"></div>
+            </div>
+            <div class="card">
+                <div id="vis-slope"></div>
+            </div>
+        </div>
         
     </div>
 
@@ -65,6 +79,14 @@
 
         vegaEmbed('#vis-bar', 'flood_loss_agricultural_stacked_bar_chart.vg.json', {actions: false})
         .then(result => console.log("Bar chart rendered successfully"))
+        .catch(console.error);
+
+        vegaEmbed('#vis-grouped', 'flood_loss_agricultural_grouped_bar_chart.vg.json', {actions:false})
+        .then(result => console.log("Grouped bar rendered successfully"))
+        .catch(console.error);
+
+        vegaEmbed('#vis-slope', 'flood_loss_agricultural_slope_chart.vg.json', {actions: false})
+        .then(result => console.log("Slope chart rendered successfully"))
         .catch(console.error);
     </script>
     

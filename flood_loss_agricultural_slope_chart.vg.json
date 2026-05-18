@@ -10,7 +10,7 @@
         "subtitleFont": "Inter",
         "subtitleFontSize": 16
     },
-    "width": 450,
+    "width": 350,
     "height": 300,
     "params": [
         {
@@ -139,7 +139,8 @@
             "mark":{
                 "type": "point",
                 "filled": true,
-                "size": 80
+                "size": 200,
+                "opacity":0.8
             },
             "encoding": {
             "x":{
@@ -198,60 +199,6 @@
                 "title": "Year"
             }
             ]           
-        }
-    },
-    {
-        "mark":{
-            "type": "text",
-            "align":"left",
-            "dx": 8,
-            "fontSize":12,
-            "fontWeight": 500
-        },
-        "transform": [
-            {
-                "filter": "datum.Year == 2025"
-            }
-        ],
-        "encoding": {
-            "x": {
-                "field":"Year",
-                "type": "ordinal"
-            },
-            "y":{
-                "field":"Loss",
-                "type": "quantitative",
-                "scale":{
-                    "type": "log",
-                    "base":10
-                }
-            },
-            "text":{"field":"Category", "type": "nominal"},
-            "color":{
-                "field": "Category",
-                "type": "nominal",
-                "scale":{
-                    "domain":[
-                        "Paddy",
-                        "Crops",
-                        "Fisheries",
-                        "Livestock",
-                        "Fisherman",
-                        "Agro-entrepreneur",
-                        "High Value Commodity"
-                    ],
-                    "range":[
-                        "#4a2377",
-                        "#8cc5e3",
-                        "#f55f74",
-                        "#003a7d",
-                        "#c99b38",
-                        "#ea801c",
-                        "#0d7d87"
-                    ]
-                },
-                "legend": null
-            }
         }
     }
 ],
