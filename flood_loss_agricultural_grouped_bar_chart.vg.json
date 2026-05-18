@@ -1,9 +1,8 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": {
-        "text": "Agricultural Flood Losses by State & Category",
-        "subtitle":[ "Total loss across all cateogories in RM'000",
-                         "- Click a bar to explore state detail - "],
+    "title":{
+        "text": "Loss by Category and State",
+        "subtitle": "Proportion of Loss by Agricultural Category",
         "font": "Lora",
         "fontStyle": "normal",
         "fontSize": 24,
@@ -11,40 +10,55 @@
         "subtitleFont": "Inter",
         "subtitleFontSize": 16
     },
-    "width": 900,
-    "height": 400,
-    "autosize":{
-        "type": "fit",
-        "contains": "padding"
-    },
+    "width": 450,
+    "height": 300,
     "params": [
         {
             "name": "year_select",
             "value": 2024,
             "bind": {
                 "input": "select",
-                "options": [
+                "options":[
                     2024, 2025
                 ],
-                "labels": [
-                    "2024", "2025"
-                ],
+                "labels": ["2024", "2025"],
                 "name": "Select Year: "
             }
         },
         {
             "name": "state_select",
-            "select":
-            {
-                "type": "point",
-                "fields": ["State"]
+            "value": "Kedah",
+            "bind": {
+                "input": "select",
+                "options":[
+                    "Johor",
+                    "Kedah",
+                    "Kelantan",
+                    "Kuala Lumpur",
+                    "Melaka",
+                    "Negeri Sembilan",
+                    "Pahang",
+                    "Perak",
+                    "Perlis",
+                    "Pulau Pinang",
+                    "Sabah",
+                    "Sarawak",
+                    "Selangor",
+                    "Terengganu"
+                ],
+                "name": "Select State: "
             }
         }
     ],
-    "data": { "url": "cleaned_floodloss_agricultural.csv" },
+    "data":{
+        "url": "cleaned_floodloss_agricultural.csv"
+    },
     "transform": [
         {
             "filter": "datum.Year == year_select"
+        },
+        {
+            "filter": "datum.State == state_select"
         },
         {
             "fold": [
@@ -65,46 +79,47 @@
             "filter": "datum.Loss > 0"
         }
     ],
-    "mark": { 
+    "mark": {
         "type": "bar",
         "cornerRadiusTopLeft": 3,
-        "cornerRadiusTopRight": 3,
-        "cursor": "pointer"
+        "cornerRadiusTopRight": 3
     },
     "encoding": {
-       "x": {
-        "field": "State",
-        "type": "nominal",
-        "sort":{
-            "op": "sum",
-            "field": "Loss",
-            "order": "descending"
-        },
-        "axis":{
-            "labelAngle": -30,
-            "labelFont": "Inter",
-            "labelFontSize": 12,
-            "title": null
-        }
-       },
-        "y":{
-            "field": "Loss",
-            "type": "quantitative",
-            "stack": "normalize",
+        "x":{
+            "field":"Category",
+            "type": "nominal",
+            "sort": {
+                "op": "sum",
+                "field": "Loss",
+                "order":"descending"
+            },
             "axis":{
-                "title": "Proportion of Loss",
+                "labelAngle": -30,
+                "labelFont":"Inter",
+                "labelFontSize": 12,
+                "title":null
+            }
+        },
+        "y":{
+            "field":"Loss",
+            "type": "quantitative",
+            "scale":{
+                "type": "log",
+                "base": 10
+            },
+            "axis":{
+                "title": "Loss (RM '000)",
                 "titleFont": "Inter",
                 "titleFontSize": 13,
                 "labelFont": "Inter",
                 "labelFontSize": 12,
-                "format": "%",
                 "grid": false
             }
         },
         "color":{
-            "field":"Category",
+            "field": "Category",
             "type": "nominal",
-            "scale": {
+            "scale":{
                 "domain":[
                     "Paddy",
                     "Crops",
@@ -132,27 +147,25 @@
                 "labelFontSize": 12
             }
         },
-        "opacity":{
-            "condition":{
-                "param": "state_select",
-                "value": 0.9
-            },
-            "value": 0.30
-            
-        },
         "tooltip":[
-            {
-                "field":"State",
-                "type": "nominal",
-                "title": "State"
-            },
             {
                 "field": "Category",
                 "type": "nominal",
                 "title": "Category"
             },
             {
-                "field": "Year",
+                "field": "Loss",
+                "type": "quantitative",
+                "title": "Loss (RM '000)",
+                "format": ",d"
+            },
+            {
+                "field":"State",
+                "type": "nominal",
+                "title": "State"
+            },
+            {
+                "field":"Year",
                 "type": "ordinal",
                 "title": "Year"
             }
@@ -160,9 +173,6 @@
     },
     "config": {
         "font": "Inter",
-        "view": {
-            "stroke": null
-        }
+        "view": {"stroke": null}
     }
-    
 }
