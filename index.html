@@ -13,31 +13,58 @@
 
 
     <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body{
             font-family: "Inter", sans-serif;
-            background-color: #fafafa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: #ffffff;
             margin: 0;
+            padding: 0;
         }
-        .container {
+        .wrapper{
+            align-items: center;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .card {
             background: white;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            width: 1000px;
+        }
+
+        #vis-map,
+        #vis-bar {
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="vis-map"></div>
+    <div class="wrapper">
+        <div class="card">
+            <div id="vis-map"></div>
+        </div>
+
+        <div class="card">
+            <div id="vis-bar"></div>
+        </div>
+        
     </div>
 
     <script>
-        vegaEmbed('#vis-map', 'flood_loss_agricultural_map.vg.json')
+        vegaEmbed('#vis-map', 'flood_loss_agricultural_map.vg.json', {actions: false})
         .then(result => console.log("Map rendered sucessfully"))
+        .catch(console.error);
+
+        vegaEmbed('#vis-bar', 'flood_loss_agricultural_stacked_bar_chart.vg.json', {actions: false})
+        .then(result => console.log("Bar chart rendered successfully"))
         .catch(console.error);
     </script>
     

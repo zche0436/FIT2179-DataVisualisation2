@@ -1,0 +1,168 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+        "text": "Agricultural Flood Losses by State & Category",
+        "subtitle":[ "Total loss across all cateogories in RM'000",
+                         "- Click a bar to explore state detail - "],
+        "font": "Lora",
+        "fontStyle": "normal",
+        "fontSize": 24,
+        "anchor": "start",
+        "subtitleFont": "Inter",
+        "subtitleFontSize": 16
+    },
+    "width": 900,
+    "height": 400,
+    "autosize":{
+        "type": "fit",
+        "contains": "padding"
+    },
+    "params": [
+        {
+            "name": "year_select",
+            "value": 2024,
+            "bind": {
+                "input": "select",
+                "options": [
+                    2024, 2025
+                ],
+                "labels": [
+                    "2024", "2025"
+                ],
+                "name": "Select Year: "
+            }
+        },
+        {
+            "name": "state_select",
+            "select":
+            {
+                "type": "point",
+                "fields": ["State"]
+            }
+        }
+    ],
+    "data": { "url": "cleaned_floodloss_agricultural.csv" },
+    "transform": [
+        {
+            "filter": "datum.Year == year_select"
+        },
+        {
+            "fold": [
+                "Paddy",
+                "Crops",
+                "Fisheries",
+                "Livestock",
+                "Fisherman",
+                "Agro-entrepreneur",
+                "High Value Commodity"
+            ],
+            "as": [
+                "Category",
+                "Loss"
+            ]
+        },
+        {
+            "filter": "datum.Loss > 0"
+        }
+    ],
+    "mark": { 
+        "type": "bar",
+        "cornerRadiusTopLeft": 3,
+        "cornerRadiusTopRight": 3,
+        "cursor": "pointer"
+    },
+    "encoding": {
+       "x": {
+        "field": "State",
+        "type": "nominal",
+        "sort":{
+            "op": "sum",
+            "field": "Loss",
+            "order": "descending"
+        },
+        "axis":{
+            "labelAngle": -30,
+            "labelFont": "Inter",
+            "labelFontSize": 12,
+            "title": null
+        }
+       },
+        "y":{
+            "field": "Loss",
+            "type": "quantitative",
+            "stack": "normalize",
+            "axis":{
+                "title": "Proportion of Loss",
+                "titleFont": "Inter",
+                "titleFontSize": 14,
+                "labelFont": "Inter",
+                "labelFontSize": 12,
+                "format": "%",
+                "grid": false
+            }
+        },
+        "color":{
+            "field":"Category",
+            "type": "nominal",
+            "scale": {
+                "domain":[
+                    "Paddy",
+                    "Crops",
+                    "Fisheries",
+                    "Livestock",
+                    "Fisherman",
+                    "Agro-entrepreneur",
+                    "High Value Commodity"
+                ],
+                "range":[
+                    "#4a2377",
+                    "#8cc5e3",
+                    "#f55f74",
+                    "#003a7d",
+                    "#c99b38",
+                    "#ea801c",
+                    "#0d7d87"
+                ]
+            },
+            "legend":{
+                "title": "Category",
+                "titleFont": "Inter",
+                "titleFontSize": 13,
+                "labelFont": "Inter",
+                "labelFontSize": 12
+            }
+        },
+        "opacity":{
+            "condition":{
+                "param": "state_select",
+                "value": 0.9
+            },
+            "value": 0.30
+            
+        },
+        "tooltip":[
+            {
+                "field":"State",
+                "type": "nominal",
+                "title": "State"
+            },
+            {
+                "field": "Category",
+                "type": "nominal",
+                "title": "Category"
+            },
+            {
+                "field": "Year",
+                "type": "ordinal",
+                "title": "Year"
+            }
+        ]
+    },
+    "config": {
+        "font": "Inter",
+        "view": {
+            "stroke": null
+        }
+    }
+    
+}

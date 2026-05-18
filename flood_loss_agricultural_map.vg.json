@@ -8,10 +8,14 @@
     "fontSize": 24,
     "anchor": "start",
     "subtitleFont": "Inter",
-    "subtitleFontSize": 18
+    "subtitleFontSize": 16
   },
-  "width": 800,
+  "width": 900,
   "height": 400,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
   "projection": {"type": "mercator"},
   "params": [
     {
@@ -75,7 +79,13 @@
             "scale": {
                 "type": "sqrt",
                 "range": ["#ffffff", "#67000d"]},
-            "title": "Loss (RM '000)"
+            "title": "Loss (RM '000)",
+            "legend":{
+                "titleFont":"Inter",
+                "titleFontSize" : 13,
+                "labelFont": "Inter",
+                "labelFontSize": 12
+            }
         },
             "tooltip": [
             {"field": "properties.name", "type": "nominal", "title": "State"},
