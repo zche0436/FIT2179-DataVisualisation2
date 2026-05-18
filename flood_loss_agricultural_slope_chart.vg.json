@@ -1,0 +1,262 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title":{
+        "text": "Category Loss Change from 2024 to 2025",
+        "subtitle": "How each sector's loss changed year over year",
+        "font": "Lora",
+        "fontStyle": "normal",
+        "fontSize": 24,
+        "anchor": "start",
+        "subtitleFont": "Inter",
+        "subtitleFontSize": 16
+    },
+    "width": 450,
+    "height": 300,
+    "params": [
+        {
+            "name": "state_select",
+            "value": "Kedah",
+            "bind": {
+                "input": "select",
+                "options":[
+                    "Johor",
+                    "Kedah",
+                    "Kelantan",
+                    "Kuala Lumpur",
+                    "Melaka",
+                    "Negeri Sembilan",
+                    "Pahang",
+                    "Perak",
+                    "Perlis",
+                    "Pulau Pinang",
+                    "Sabah",
+                    "Sarawak",
+                    "Selangor",
+                    "Terengganu"
+                ],
+                "name": "Select State: "
+            }
+        }
+    ],
+    "data":{
+        "url": "cleaned_floodloss_agricultural.csv"
+    },
+    "transform": [
+        {
+            "filter": "datum.State == state_select"
+        },
+        {
+            "fold": [
+                "Paddy",
+                "Crops",
+                "Fisheries",
+                "Livestock",
+                "Fisherman",
+                "Agro-entrepreneur",
+                "High Value Commodity"
+            ],
+            "as": [
+                "Category",
+                "Loss"
+            ]
+        },
+        {
+            "filter": "datum.Loss > 0"
+        }
+    ],
+    "layer":[
+    {
+        "mark": {
+            "type": "line",
+            "point": false,
+            "strokeWidth": 2
+        },
+        "encoding": {
+            "x":{
+                "field":"Year",
+                "type": "ordinal",
+                "axis":{
+                    "labelFont":"Inter",
+                    "labelFontSize": 12,
+                    "title":null,
+                    "grid": false
+                }
+            },
+            "y":{
+                "field":"Loss",
+                "type": "quantitative",
+                "scale":{
+                    "type": "log",
+                    "base": 10
+                },
+                "axis":{
+                    "title": "Loss (RM '000)",
+                    "titleFont": "Inter",
+                    "titleFontSize": 13,
+                    "labelFont": "Inter",
+                    "labelFontSize": 12,
+                    "grid": false
+                }
+            },
+            "color":{
+                "field": "Category",
+                "type": "nominal",
+                "scale":{
+                    "domain":[
+                        "Paddy",
+                        "Crops",
+                        "Fisheries",
+                        "Livestock",
+                        "Fisherman",
+                        "Agro-entrepreneur",
+                        "High Value Commodity"
+                    ],
+                    "range":[
+                        "#4a2377",
+                        "#8cc5e3",
+                        "#f55f74",
+                        "#003a7d",
+                        "#c99b38",
+                        "#ea801c",
+                        "#0d7d87"
+                    ]
+                },
+                "legend":{
+                    "title": "Category",
+                    "titleFont": "Inter",
+                    "titleFontSize": 13,
+                    "labelFont": "Inter",
+                    "labelFontSize": 12
+                }
+            },
+            "detail": {
+                "field": "Category",
+                "type": "nominal"
+            }
+            }
+        },
+        {
+            "mark":{
+                "type": "point",
+                "filled": true,
+                "size": 80
+            },
+            "encoding": {
+            "x":{
+                        "field":"Year",
+                        "type":"ordinal"
+                    },
+                    "y":{
+                        "field":"Loss",
+                        "type":"quantitative",
+                        "scale":{"type": "log","base": 10}
+                    },
+            "color":{
+                "field": "Category",
+                "type": "nominal",
+                "scale":{
+                    "domain":[
+                        "Paddy",
+                        "Crops",
+                        "Fisheries",
+                        "Livestock",
+                        "Fisherman",
+                        "Agro-entrepreneur",
+                        "High Value Commodity"
+                    ],
+                    "range":[
+                        "#4a2377",
+                        "#8cc5e3",
+                        "#f55f74",
+                        "#003a7d",
+                        "#c99b38",
+                        "#ea801c",
+                        "#0d7d87"
+                    ]
+                }
+            },
+            "tooltip":[
+            {
+                "field": "Category",
+                "type": "nominal",
+                "title": "Category"
+            },
+            {
+                "field": "Loss",
+                "type": "quantitative",
+                "title": "Loss (RM '000)",
+                "format": ",d"
+            },
+            {
+                "field":"State",
+                "type": "nominal",
+                "title": "State"
+            },
+            {
+                "field":"Year",
+                "type": "ordinal",
+                "title": "Year"
+            }
+            ]           
+        }
+    },
+    {
+        "mark":{
+            "type": "text",
+            "align":"left",
+            "dx": 8,
+            "fontSize":12,
+            "fontWeight": 500
+        },
+        "transform": [
+            {
+                "filter": "datum.Year == 2025"
+            }
+        ],
+        "encoding": {
+            "x": {
+                "field":"Year",
+                "type": "ordinal"
+            },
+            "y":{
+                "field":"Loss",
+                "type": "quantitative",
+                "scale":{
+                    "type": "log",
+                    "base":10
+                }
+            },
+            "text":{"field":"Category", "type": "nominal"},
+            "color":{
+                "field": "Category",
+                "type": "nominal",
+                "scale":{
+                    "domain":[
+                        "Paddy",
+                        "Crops",
+                        "Fisheries",
+                        "Livestock",
+                        "Fisherman",
+                        "Agro-entrepreneur",
+                        "High Value Commodity"
+                    ],
+                    "range":[
+                        "#4a2377",
+                        "#8cc5e3",
+                        "#f55f74",
+                        "#003a7d",
+                        "#c99b38",
+                        "#ea801c",
+                        "#0d7d87"
+                    ]
+                },
+                "legend": null
+            }
+        }
+    }
+],
+    "config": {
+        "font": "Inter",
+        "view": {"stroke": null}
+    }
+}
