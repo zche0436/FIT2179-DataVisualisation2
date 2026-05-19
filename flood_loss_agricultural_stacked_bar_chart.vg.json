@@ -2,7 +2,7 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
         "text": "Agricultural Flood Losses by State & Category",
-        "subtitle":[ "Total loss across all cateogories in RM'000",
+        "subtitle":[ "Total loss across all categories in RM'000",
                          "- Click a bar to explore state detail - "],
         "font": "Lora",
         "fontStyle": "normal",

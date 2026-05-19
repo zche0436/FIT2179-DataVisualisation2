@@ -2,10 +2,8 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
         "text": "Malaysia Monthly Rainfall Intensity (2020-2024)",
-        "subtitle": [
+        "subtitle":
             "Total precipitation (mm) and heavy rain days (>20mm) per month",
-            "Drag on the overview below to zoom into a time period"
-        ],
         "font": "Lora",
         "fontStyle": "normal",
         "fontSize": 24,

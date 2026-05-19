@@ -90,7 +90,7 @@
                     "base": 10
                 },
                 "axis":{
-                    "title": "Loss (RM '000)",
+                    "title": "Loss (RM '000) - log",
                     "titleFont": "Inter",
                     "titleFontSize": 13,
                     "labelFont": "Inter",

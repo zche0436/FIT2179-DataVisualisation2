@@ -2,7 +2,7 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title":{
         "text": "Loss by Category and State",
-        "subtitle": "Proportion of Loss by Agricultural Category",
+        "subtitle": "Flood Loss per Agricultural Category",
         "font": "Lora",
         "fontStyle": "normal",
         "fontSize": 24,
@@ -108,7 +108,7 @@
                 "base": 10
             },
             "axis":{
-                "title": "Loss (RM '000)",
+                "title": "Loss (RM '000) - log",
                 "titleFont": "Inter",
                 "titleFontSize": 13,
                 "labelFont": "Inter",
