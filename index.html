@@ -45,7 +45,7 @@
             justify-content: center;
         }
 
-        #vis-map, #vis-bar,
+        #vis-map, #vis-bar, #vis-rainfall,
         #vis-grouped, #vis-slope {
             width: 100%;
         }
@@ -53,6 +53,10 @@
 </head>
 <body>
     <div class="wrapper">
+        <div class="card">
+            <div id="vis-rainfall"></div>
+        </div>
+
         <div class="card">
             <div id="vis-map"></div>
         </div>
@@ -73,6 +77,10 @@
     </div>
 
     <script>
+        vegaEmbed('#vis-rainfall', 'rainfall_overview_detail.vg.json', {actions:false})
+        .then(result => console.log("Rainfall chart rendered successfully"))
+        .catch(console.error)
+
         vegaEmbed('#vis-map', 'flood_loss_agricultural_map.vg.json', {actions: false})
         .then(result => console.log("Map rendered sucessfully"))
         .catch(console.error);

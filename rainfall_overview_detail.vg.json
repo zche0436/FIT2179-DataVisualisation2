@@ -1,0 +1,193 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+        "text": "Malaysia Monthly Rainfall Intensity (2020-2024)",
+        "subtitle": [
+            "Total precipitation (mm) and heavy rain days (>20mm) per month",
+            "Drag on the overview below to zoom into a time period"
+        ],
+        "font": "Lora",
+        "fontStyle": "normal",
+        "fontSize": 24,
+        "anchor": "start",
+        "subtitleFont": "Inter",
+        "subtitleFontSize": 16
+    },
+    "data":{
+        "url": "cleaned_rainfall_2020_2024.csv",
+        "format":{"type": "csv","parse":{"YearMonth": "date:'%Y-%m'"}}
+    },
+    "spacing": 20,
+    "vconcat": [
+        {
+            "width":900,
+            "height": 350,
+            "layer": [
+                {
+                    "mark":{
+                        "type": "area",
+                        "line": true,
+                        "color": "#2b5876",
+                        "fillOpacity": 0.15,
+                        "strokeWidth": 2,
+                        "clip":true
+                    },
+                    "encoding": {
+                        "x": {
+                            "field": "YearMonth",
+                            "type": "temporal",
+                            "scale":{
+                                "domain":{
+                                    "param": "brush"
+                                }
+                            },
+                            "axis": {
+                                "title": null,
+                                "labelAngle": -30,
+                                "labelFont": "Inter",
+                                "labelFontSize": 12,
+                                "grid": false,
+                                "format": "%b %Y",
+                                "tickCount": 12
+                            }
+                        },
+                        "y": {
+                            "field": "pr",
+                            "type": "quantitative",
+                            "axis":{
+                                "title": "Precipitation (mm)",
+                                "titleFont": "Inter",
+                                "titleFontSize": 13,
+                                "titleColor":"#2b5876",
+                                "labelFont": "Inter",
+                                "labelFontSize": 12,
+                                "labelColor":"#2b5876",
+                                "grid": true,
+                                "gridColor": "#e3e8ed"
+                            }
+                        },
+                        "tooltip":[
+                            {
+                                "field": "YearMonth",
+                                "type": "temporal",
+                                "title": "Month",
+                                "format":"%b %Y"
+                            },
+                            {
+                                "field":"pr",
+                                "type": "quantitative",
+                                "title":"Precipitation (mm)",
+                                "format": ".1f"
+                            },
+                            {
+                                "field":"r20mm",
+                                "type": "quantitative",
+                                "title":"Heavy Rain Days",
+                                "format": ".1f"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "mark":{
+                        "type": "line",
+                        "color": "#2bafc0",
+                        "strokeWidth": 2,
+                        "strokeDash":[4, 2],
+                        "clip":true
+                    },
+                    "encoding": {
+                        "x":{
+                            "field":"YearMonth",
+                            "type": "temporal",
+                            "scale":{"domain":{
+                                "param": "brush"
+                            }}
+                        },
+                        "y":{
+                            "field":"r20mm",
+                            "type": "quantitative",
+                            "axis":{
+                                "title":"Heavy Rain Days",
+                                "titleFont":"Inter",
+                                "titleFontSize": 13,
+                                "titleColor":"#2bafc0",
+                                "labelFont": "Inter",
+                                "labelFontSize": 12,
+                                "labelColor":"#2bafc0",
+                                "grid": false,
+                                "orient":"right"
+                            }
+                        },
+                        "tooltip":[
+                            {
+                                "field":"YearMonth",
+                                "type": "temporal",
+                                "title": "Month",
+                                "format":"%b %Y"
+                            },
+                            {
+                                "field":"pr",
+                                "type": "quantitative",
+                                "title":"Precipitation (mm)",
+                                "format": ".1f"
+                            },
+                            {
+                                "field":"r20mm",
+                                "type": "quantitative",
+                                "title":"Heavy Rain Days",
+                                "format":".1f"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "resolve": {
+                "scale": {"y": "independent"}
+            }
+        },
+        {
+            "width": 900,
+            "height":60,
+            "params": [
+                {
+                    "name": "brush",
+                    "select":{"type": "interval", "encodings": ["x"]}
+                }
+                    ],
+                    "mark": {
+                        "type": "area",
+                        "line":true,
+                        "color":"#2b5876",
+                        "fillOpacity": 0.15,
+                        "strokeWidth": 1.5
+                    },
+                    "encoding": {
+                        "x":{
+                            "field":"YearMonth",
+                            "type": "temporal",
+                            "axis":{
+                                "title":"Drag to select time range",
+                                "titleFont":"Inter",
+                                "titleFontSize":13,
+                                "titleColor":"#526578",
+                                "labelFont":"Inter",
+                                "labelFontSize":12,
+                                "labelAngle":-30,
+                                "grid": false,
+                                "format":"%b %Y"
+                            }
+                        },
+                        "y":{
+                            "field":"pr",
+                            "type": "quantitative",
+                            "axis":null
+                        }
+                    }
+        }
+    ],
+    "config": {
+        "font": "Inter",
+        "view": {"stroke":null}
+    }
+}
