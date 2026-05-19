@@ -32,8 +32,8 @@
         {
             "title":{
                 "text":"Total Loss by State",
-                "font":"Lora",
-                "fontSize":18,
+                "font":"Inter",
+                "fontSize":13,
                 "anchor": "start"
             },
             "width":350,
@@ -46,29 +46,8 @@
                     "filter": "datum.Year == year_select"
                 }
             ],
-            "layer": [
-                {
-                    "mark":{
-                        "type": "bar",
-                        "cornerRadiusTopRight": 3,
-                        "cornerRadiusBottomRight": 3,
-                        "opacity":1
-                    },
-                    "encoding": {
-                        "y":{
-                            "field":"State",
-                            "type": "nominal",
-                            "sort":{
-                                "field":"Total Loss",
-                                "order":"descending"
-                            },
-                            "axis":{
-                                "title":null,
-                                "labelFont":"Inter",
-                                "labelFontSize":12
-                            }
-                        },
-                        "x":{
+            "encoding": {
+                "x":{
                             "field":"Total Loss",
                             "type": "quantitative",
                             "axis":{
@@ -81,17 +60,41 @@
                                 "gridColor": "#e3e8ed",
                                 "format":"~s"
                             }
-                        },
+                    },
+                "y":{
+                            "field":"State",
+                            "type": "nominal",
+                            "sort": {
+                                "field":"Total Loss",
+                                "op": "sum",
+                                "order":"descending"
+                            },
+                            "axis":{
+                                "title":null,
+                                "labelFont":"Inter",
+                                "labelFontSize":12
+                            }
+                        }
+            },
+            "layer": [
+                {
+                    "mark":{
+                        "type": "bar",
+                        "cornerRadiusTopRight": 3,
+                        "cornerRadiusBottomRight": 3,
+                        "opacity":1
+                    },
+                    "encoding": {
                         "color":{
                             "condition":{
-                                "test":"datum.State == state_select",
-                                "value": "#b22222"
+                                "test":"datum.State == state_select.State",
+                                "value": "#064869"
                             },
                             "value":"#8cc5e3"
                         },
                         "opacity":{
                             "condition":{
-                                "test":"datum.State == state_select",
+                                "test":"datum.State == state_select.State",
                                 "value": 1
                             },
                             "value":0.5
@@ -156,41 +159,42 @@
                     "mark":{
                         "type": "point",
                         "filled": true,
-                        "size":200,
                         "cursor":"pointer",
                         "opacity":1
                     },
                     "params": [
                         {
                             "name": "state_select",
+                            "value":"Kelantan",
                             "select":{
                                 "type": "point",
                                 "fields": ["State"],
                                 "on":"click",
                                 "toggle": false
-                            },
-                            "value":"Perak"
+                            }
                         }
                     ],
                     "encoding": {
-                        "y":{
-                            "field":"State",
-                            "type": "nominal",
-                            "sort":{
-                                "field":"Total Loss",
-                                "order":"descending"
-                            }
-                        },
-                        "x":{
-                            "field":"Total Loss",
-                            "type": "quantitative"
-                        },
                         "color":{
                             "condition":{
-                                "test":"datum.State == state_select",
-                                "value": "#b22222"
+                                "test":"datum.State == state_select.State",
+                                "value": "#064869"
                             },
-                            "value":"#2b5876"
+                            "value":"#8cc5e3"
+                        },
+                        "opacity":{
+                            "condition":{
+                                "test":"datum.State == state_select.State",
+                                "value": 1
+                            },
+                            "value": 0.5
+                        },
+                        "size":{
+                            "condition":{
+                                "test":"datum.State == state_select.State",
+                                "value": 350
+                            },
+                            "value":170
                         },
                         "tooltip":[
                             {
@@ -216,7 +220,7 @@
         },
         {
             "title":{
-                "text":{"expr": "state_select + ' Category Breakdown '"},
+                "text":{"expr": "state_select.State + ' Category Breakdown '"},
                 "font":"Lora",
                 "fontSize":18,
                 "anchor": "start"
@@ -225,7 +229,7 @@
             "height": 350,
             "transform": [
                 {
-                    "filter":"datum.State == state_select"
+                    "filter":"datum.State == state_select.State"
                 },
                 {
                     "filter":"datum.Year == year_select"
@@ -263,6 +267,8 @@
             "mark":{
                 "type": "arc",
                 "innerRadius": 70,
+                "stroke": "white",
+                "strokeWidth": 0.5,
                 "outerRadius": 130,
                 "cursor": "pointer"
             },
@@ -285,12 +291,12 @@
                             "Infrastructure"
                         ],
                         "range":[
-                            "#cc4b5a",
-                            "#6e645e",
-                            "#d9742b",
-                            "#1a4373",
-                            "#3a8d5f",
-                            "#674ea7"
+                            "#f0a2ab",
+                            "#bdba82",
+                            "#f5b285",
+                            "#93b7db",
+                            "#a2d7bb",
+                            "#bfa2db"
                         ]
                     },
                     "legend":{
@@ -326,6 +332,6 @@
     "config": {
         "font": "Inter",
         "view": {"stroke": null},
-        "scale": {"bandPaddingInner": 0.7}
+        "scale": {"bandPaddingInner": 0.8}
     }
 }

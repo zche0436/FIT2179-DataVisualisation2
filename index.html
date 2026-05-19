@@ -76,6 +76,10 @@
         </div>
 
         <div class="card">
+            <div id="vis-lollipop-donut"></div>
+        </div>
+
+        <div class="card">
             <div id="vis-map"></div>
         </div>
 
@@ -97,7 +101,11 @@
     <script>
         vegaEmbed('#vis-rainfall', 'rainfall_overview_detail.vg.json', {actions:false})
         .then(result => console.log("Rainfall chart rendered successfully"))
-        .catch(console.error)
+        .catch(console.error);
+
+        vegaEmbed('#vis-lollipop-donut', 'flood_loss_all_lollipop_donut.vg.json', {actions:false})
+        .then(result => console.log("Lollipop and donut chart rendered successfully"))
+        .catch(console.error);
 
         vegaEmbed('#vis-map', 'flood_loss_agricultural_map.vg.json', {actions: false})
         .then(result => console.log("Map rendered sucessfully"))
