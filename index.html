@@ -87,13 +87,9 @@
             <div id="vis-bar"></div>
         </div>
 
-        <div class="card-row">
-            <div class="card">
-                <div id="vis-grouped"></div>
-            </div>
-            <div class="card">
-                <div id="vis-slope"></div>
-            </div>
+        <div class="card">
+            <div id="vis-combined"></div>
+        </div>
         </div>
         
     </div>
@@ -115,12 +111,8 @@
         .then(result => console.log("Bar chart rendered successfully"))
         .catch(console.error);
 
-        vegaEmbed('#vis-grouped', 'flood_loss_agricultural_grouped_bar_chart.vg.json', {actions:false})
-        .then(result => console.log("Grouped bar rendered successfully"))
-        .catch(console.error);
-
-        vegaEmbed('#vis-slope', 'flood_loss_agricultural_slope_chart.vg.json', {actions: false})
-        .then(result => console.log("Slope chart rendered successfully"))
+        vegaEmbed('#vis-combined', 'flood_loss_agricultural_grouped_slope_chart.vg.json', {actions:false})
+        .then(result => console.log("Combined grouped bar and slope chart rendered successfully"))
         .catch(console.error);
     </script>
     
