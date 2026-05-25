@@ -27,7 +27,7 @@
         },
         {
             "name": "state_select",
-            "value": "Kedah",
+            "value": "Kelantan",
             "bind": {
                 "input": "select",
                 "options":[

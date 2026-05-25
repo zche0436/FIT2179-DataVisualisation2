@@ -17,39 +17,11 @@
     "params": [
         {
             "name": "year_select",
-            "value": 2024,
-            "bind": {
-                "input": "select",
-                "options":[
-                    2024, 2025
-                ],
-                "labels": ["2024", "2025"],
-                "name": "Select Year: "
-            }
+            "value":2024
         },
         {
             "name": "state_select",
-            "value": "Kelantan",
-            "bind": {
-                "input": "select",
-                "options":[
-                    "Johor",
-                    "Kedah",
-                    "Kelantan",
-                    "Kuala Lumpur",
-                    "Melaka",
-                    "Negeri Sembilan",
-                    "Pahang",
-                    "Perak",
-                    "Perlis",
-                    "Pulau Pinang",
-                    "Sabah",
-                    "Sarawak",
-                    "Selangor",
-                    "Terengganu"
-                ],
-                "name": "Select State: "
-            }
+            "value":"Kelantan"
         }
     ],
     "resolve": {
@@ -184,6 +156,7 @@
         ]
     }
     },
+
     {
         "title":{
             "text":"Loss Change 2024 → 2025",
@@ -230,6 +203,7 @@
                 "axis":{
                     "labelFont":"Inter",
                     "labelFontSize": 12,
+                    "labelAngle":0,
                     "title":null,
                     "grid": false
                 }

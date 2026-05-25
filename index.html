@@ -107,12 +107,35 @@
         .then(result => console.log("Map rendered sucessfully"))
         .catch(console.error);
 
+        let groupedBarView = null;
+
         vegaEmbed('#vis-bar', 'flood_loss_agricultural_stacked_bar_chart.vg.json', {actions: false})
-        .then(result => console.log("Bar chart rendered successfully"))
+        .then(result => {
+            console.log("Stacked Bar Chart rendered successfully");
+
+            result.view.addSignalListener('state_select', function(name, value){
+                
+                if (value && value.State && value.State.length > 0) {
+                    const selectedState = value.State[0];
+                    if (groupedBarView){
+                        groupedBarView.signal('state_select', selectedState).run();
+                    }
+                }
+            });
+
+            result.view.addSignalListener('year_select', function(name, value){
+                if (groupedBarView){
+                    groupedBarView.signal('year_select', value).run();
+                }
+            });
+        })
         .catch(console.error);
 
         vegaEmbed('#vis-combined', 'flood_loss_agricultural_grouped_slope_chart.vg.json', {actions:false})
-        .then(result => console.log("Combined grouped bar and slope chart rendered successfully"))
+        .then(result => {
+            console.log("Combined grouped bar and slope chart rendered successfully");
+            groupedBarView = result.view;
+        })
         .catch(console.error);
     </script>
     
