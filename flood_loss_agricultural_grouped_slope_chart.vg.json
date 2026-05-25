@@ -151,7 +151,13 @@
                     "#ea801c"
                 ]
             },
-            "legend":null
+            "legend":{
+                "title":"Category",
+                "titleFont":"Inter",
+                "titleFontSize":13,
+                "labelFont":"Inter",
+                "labelFontSize":12
+            }
         },
         "tooltip":[
             {
@@ -285,7 +291,7 @@
             "mark":{
                 "type": "point",
                 "filled": true,
-                "size": 200,
+                "size": 80,
                 "opacity":0.8
             },
             "encoding": {
@@ -320,14 +326,6 @@
                         "#003a7d",
                         "#ea801c"
                     ]
-                },
-                "legend": null
-            },
-            "size":{
-                "field":"Loss",
-                "type": "quantitative",
-                "scale":{
-                    "range":[30, 400]
                 },
                 "legend": null
             },
