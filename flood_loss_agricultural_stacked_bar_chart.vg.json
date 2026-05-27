@@ -1,12 +1,10 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
-        "text": "Agricultural Flood Losses by State & Category",
-        "subtitle":[ "Total loss across all categories in RM'000",
-                         "- Click a bar to explore state detail - "],
+        "text": "Suberged Roots",
         "font": "Lora",
         "fontStyle": "normal",
-        "fontSize": 24,
+        "fontSize": 20,
         "anchor": "start",
         "subtitleFont": "Inter",
         "subtitleFontSize": 16

@@ -1,14 +1,10 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title":{
-        "text":"Total Flood Loss by State & Category",
-        "subtitle":[
-            "Values in RM '000",
-            "• Click a state to explore its sector breakdown on the right •"
-        ],
+        "text":"What Rivers Leave Behind",
         "font":"Lora",
         "fontStyle":"normal",
-        "fontSize":24,
+        "fontSize":20,
         "anchor": "start",
         "subtitleFont": "Inter",
         "subtitleFontSize": 16

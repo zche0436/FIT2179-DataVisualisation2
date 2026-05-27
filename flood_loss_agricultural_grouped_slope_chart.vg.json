@@ -1,12 +1,10 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title":{
-        "text": "Agricultural Flood Loss by Category & State",
-        "subtitle": ["Loss per Agricultural Category for selected State & Year",
-                    "Slope Chart shows change from 2024 to 2025"],
+        "text": "High Water Marks",
         "font": "Lora",
         "fontStyle": "normal",
-        "fontSize": 24,
+        "fontSize": 20,
         "anchor": "start",
         "subtitleFont": "Inter",
         "subtitleFontSize": 16

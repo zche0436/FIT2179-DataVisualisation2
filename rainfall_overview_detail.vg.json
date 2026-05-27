@@ -1,12 +1,10 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
-        "text": "Malaysia Monthly Rainfall Intensity (2020-2024)",
-        "subtitle":
-            "Total precipitation (mm) and heavy rain days (>20mm) per month",
+        "text": "The Weight of the Sky",
         "font": "Lora",
         "fontStyle": "normal",
-        "fontSize": 24,
+        "fontSize": 20,
         "anchor": "start",
         "subtitleFont": "Inter",
         "subtitleFontSize": 16
@@ -21,6 +19,41 @@
             "width":900,
             "height": 350,
             "layer": [
+                {
+                    "transform": [
+                        {"filter":"year(datum.YearMonth) == 2024 && month(datum.YearMonth) == 10"}
+                    ],
+                    "mark":{
+                        "type": "rule",
+                        "color": "#b03022",
+                        "strokeWidth":1.5,
+                        "strokeDash":[4,4]
+                    },
+                    "encoding": {
+                        "x":{"field":"YearMonth", "type": "temporal"}
+                    }
+                },
+                {
+                    "transform": [
+                        {
+                            "filter":"year(datum.YearMonth) == 2024 && month(datum.YearMonth) == 10"
+                        }
+                    ],
+                    "mark":{
+                        "type": "text",
+                        "align":"right",
+                        "dx": -10,
+                        "y":30,
+                        "text":"Nationwide Monsoon Peak",
+                        "font":"Inter",
+                        "fontSize":11,
+                        "fontWeight":"bold",
+                        "fill":"#b03022"
+                    },
+                    "encoding": {
+                        "x":{"field":"YearMonth", "type": "temporal"}
+                    }
+                },
                 {
                     "mark":{
                         "type": "area",
