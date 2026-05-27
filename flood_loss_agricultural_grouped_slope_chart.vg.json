@@ -88,16 +88,19 @@
             "field":"Loss",
             "type": "quantitative",
             "scale":{
-                "type": "log",
-                "base": 10
+                "type": "linear",
+                "domainMin": 0,
+                "nice": true
             },
             "axis":{
-                "title": "Loss (RM '000) - log",
+                "title": "Loss (RM '000)",
                 "titleFont": "Inter",
                 "titleFontSize": 13,
                 "labelFont": "Inter",
                 "labelFontSize": 12,
-                "grid": false
+                "grid": false,
+                "tickCount": 5,
+                "tickExtra": true
             }
         },
         "color":{
@@ -212,11 +215,10 @@
                 "field":"Loss",
                 "type": "quantitative",
                 "scale":{
-                    "type": "log",
-                    "base": 10
+                    "type": "linear"
                 },
                 "axis":{
-                    "title": "Loss (RM '000) - log",
+                    "title": "Loss (RM '000)",
                     "titleFont": "Inter",
                     "titleFontSize": 13,
                     "labelFont": "Inter",
@@ -276,7 +278,7 @@
                     "y":{
                         "field":"Loss",
                         "type":"quantitative",
-                        "scale":{"type": "log","base": 10}
+                        "scale":{"type": "linear"}
                     },
             "color":{
                 "field": "Category",

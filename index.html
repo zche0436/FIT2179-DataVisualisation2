@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monsoon Impact</title>
+    <title>Monsoon Malaysia - Flood Impact 2020-2025</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@600&display=swap" rel="stylesheet">
 
@@ -13,119 +13,413 @@
 
 
     <style>
-        *{
+        :root{
+            --navy:     #0a2343;
+            --steel:    #2e86ab;
+            --steel-lt: #5ba4c4;
+            --mist:     #d6e8f4;
+            --grey-bg:  #f2f5f9;
+            --grey-line:#dce4ed;
+            --white:    #ffffff;
+            --red:      #b03022;
+            --red-lt:   #e05a4a;
+            --text-dark:#0d1b2a;
+            --text-body:#2c3e50;
+            --text-muted:#6b7c93;
+            --font-disp: 'Playfair Display', Georgia, serif;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+            --radius:   14px;
+            --ease:     0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *, *::before, *::after{
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+        html{scroll-behavior: smooth;}
         body{
-            font-family: "Inter", sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 0;
+            font-family: var(--font-body);
+            background: var(--grey-bg);
+            color: var(--text-body);
+            overflow-x: hidden;
+            font-size: 15px;
         }
-        .wrapper{
+
+        /* navigate */
+        .site-nav{
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: var(--navy);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex;
             align-items: center;
-            padding: 40px 24px;
+            padding: 0 32px;
+            height: 52px;
+            gap: 0;
+        }
+        .nav-logo{
+            font-family: var(--font-disp);
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--white);
+            white-space: nowrap;
+            margin-right: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-logo span{color: var(--steel-lt);}
+        .nav-links {display: flex; gap: 2px; flex: 1;}
+        .nav-link {
+            padding: 5px 14px;
+            border-radius: 7px;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.45);
+            text-decoration: none;
+            transition: var(--ease);
+            white-space: nowrap;
+        }
+        .nav-link:hover {color: var(--white); background: rgba(255,255,255,0.08);}
+        .nav-link.active {color: var(--white); background: rgba(255,255,255,0.1);}
+        .nav-meta {
+            margin-left: auto;
+            font-size: 11px;
+            color: rbga(255, 255, 255, 0.25);
+        }
+
+        /*banner at the top page*/
+        .intro {
+            background: var(--navy);
+            padding: 64px 40px 80px;
+        }
+        .intro-inner {
+            max-width: 860px;
+        }
+        .intro-overline{
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: var(--steel-lt);
+            margin-bottom: 18px;
+        }
+        .intro-title{
+            font-family: var(--font-disp);
+            font-size: clamp(30px, 4vw, 54px);
+            font-weight: 900;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .intro-title em{font-style: italic; color: var(--red-lt);}
+        .intro-body {
+            font-size: 14.5px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.6);
+            max-width: 600px;
+            line-height: 1.75;
+            margin-bottom: 36px;
+        }
+
+        /*section separator*/
+        .section-sep{
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        .sec-label{
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 36px 0 10px;
+        }
+        .sec-num {
+            font-family: var(--font-disp);
+            font-size: 60px;
+            font-weight: 900;
+            color: var(--grey-line);
+            line-height: 1;
+            user-select: none;
+        }
+        .sec-text{
+            display: flex; flex-direction: column; gap: 3px;
+        }
+        .sec-overline{
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--steel);
+        }
+        .sec-title{
+            font-family: var(--font-disp);
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .sec-line{
+            border: none;
+            border-top: 1px solid var(--grey-line);
+            margin-bottom: 0;
+        }
+
+        /*scroll layout*/
+        .scroll-layout{
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            align-items: start;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /*left panel (non scroll)*/
+        .panel-left{
+            position: sticky;
+            top: 52px;
+            height: calc(100vh-52px);
+            overflow-y: auto;
+            padding: 36px 24px 36px 0;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 18px;
+            scrollbar-width: none;
+            border-right: 1px solid var(--grey-line);
         }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-            width: fit-content;
+        .panel-left::-webkit-scrollbar{display: none;}
+
+        .left-overline{
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--steel);
         }
-        .card-row{
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-        }
-        .page-header{
-            width: 1000px;
-            padding: 12px 0;
-        }
-        .page-header h1{
-            font-family: "Lora", serif;
-            font-size: 36px;
-            font-weight: 750;
-            color: "black";
+        .left-title{
+            font-family: var(--font-disp);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--navy);
             line-height: 1.25;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
-            margin-bottom: 12px;
+        }
+        .left-body{
+            font-size: 13px;
+            line-height: 1.75;
+            color: var(--text-body);
+        }
+        .left-body strong{
+            color: var(--text-dark);
+            font-weight: 600;
         }
 
-
-        #vis-map, #vis-bar, #vis-rainfall,
-        #vis-grouped, #vis-slope {
-            width: 100%;
+        /* data source at left panel*/
+        .source-block{
+            margin-top:  auto;
+            padding-top: 16px;
+            border-top: 1px solid var(--grey-line);
+            font-size: 11px;
+            color:var(--text-muted);
+            line-height: 1.7;
         }
+        .source-block a {
+            color: var(--steel);
+            text-decoration: none;
+        }
+        .source-block strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        /*right scrolling panel*/
+        .panel-right {
+            padding: 40px 0 80px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .chart-label{
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .chart-card{
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--grey-line);
+            box-shadow: 0 3px 16px rgba(10, 35, 66, 0.05);
+            padding: 28px;
+            overflow: hidden;
+        }
+        .chart-card > div {width: 100%;}
+
+        /*footer*/
+        .footer{
+            background: var(--navy);
+            padding: 44px 40px;
+            margin-top: 72px;
+        }
+        .footer-inner{
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 28px;
+        }
+        .footer-col h4{
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--steel-lt);
+            margin-bottom: 10px;
+        }
+        .footer-col p, .footer-col a{
+            font-size: 12px;
+            color: rgba(255,255,255,0.38);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+        }
+        .footer-col a:hover{
+            color: var(--steel-lt);
+        }
+        .footer-bottom{
+            max-width: 1180px;
+            margin: 24px auto 0;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            font-size: 11px;
+            color: rgba(255,255,255,0.18);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /*scroll animation*/
+        .fade-in{
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .fade-in visible { opacity: 1; transform: none;}
+
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="page-header">
-            <h1>· How Monsoon Floods Are Affecting Malaysia's Economy ·</h1>
-        </div>
 
-        <div class="card">
-            <div id="vis-rainfall"></div>
+    <!--nav-->
+    <nav class="site-nav">
+        <div class="nav-logo">Monsoon</div>
+        <div class="nav-links">
+            <a class="nav-link" href="#sec-rainfall">01 · Rainfall</a>
+            <a class="nav-link" href="#sec-loss">02 · Total Losses</a>
+            <a class="nav-link" href="#sec-agriculture">03 · Agriculture</a>
         </div>
+        <div class="nav-meta">Malaysia · 2020-2025</div>
+    </nav>
 
-        <div class="card">
-            <div id="vis-lollipop-donut"></div>
+    <!--intro-->
+    <header class="intro">
+        <div class="intro-inner">
+            <p class="intro-overline">Economic Impact of Monsoon Floong</p>
+            <h1 class="intro-title">
+                When the Rain Doesn't Stop,<br/><em>the Losses Don't Either</em>
+            </h1>
+            <p class="intro-body">
+                Each monsoon season, Malaysia faces cascading economic damage. 
+                This report traces five years of rainfall intensity and 
+                the financial toll it extracts from states across the penisula and east Malaysia. 
+            </p>
         </div>
+    </header>
 
-        <div class="card">
-            <div id="vis-map"></div>
-        </div>
-
-        <div class="card">
-            <div id="vis-bar"></div>
-        </div>
-
-        <div class="card">
-            <div id="vis-combined"></div>
+    <!--01 rainfall-->
+    <div class="section-sep">
+        <div class="sec-label" id=""sec-rainfall">
+        <div class="sec-num">01</div>
+        <div class="sec-text">
+            <span class="sec-overline">Section One</span>
+            <span class="sec-title">Rainfall Intensity </span>
         </div>
         </div>
-        
     </div>
 
     <script>
+        let combinedView = null;
+        let lollipopDonutView = null;
+        let stackedBarView = null;
+
         vegaEmbed('#vis-rainfall', 'rainfall_overview_detail.vg.json', {actions:false})
         .then(result => console.log("Rainfall chart rendered successfully"))
         .catch(console.error);
 
-        vegaEmbed('#vis-lollipop-donut', 'flood_loss_all_lollipop_donut.vg.json', {actions:false})
-        .then(result => console.log("Lollipop and donut chart rendered successfully"))
-        .catch(console.error);
-
-        vegaEmbed('#vis-map', 'flood_loss_agricultural_map.vg.json', {actions: false})
-        .then(result => console.log("Map rendered sucessfully"))
-        .catch(console.error);
-
-        let groupedBarView = null;
-
-        vegaEmbed('#vis-bar', 'flood_loss_agricultural_stacked_bar_chart.vg.json', {actions: false})
+        vegaEmbed('#vis-map', 'flood_loss_all_map.vg.json', {actions: false})
         .then(result => {
-            console.log("Stacked Bar Chart rendered successfully");
+            console.log("Map rendered successfully");
 
-            result.view.addSignalListener('state_select', function(name, value){
-                
-                if (value && value.State && value.State.length > 0) {
-                    const selectedState = value.State[0];
-                    if (groupedBarView){
-                        groupedBarView.signal('state_select', selectedState).run();
+            result.view.addSignalListener('map_state_select', function(name, value){
+                console.log("Map selection:", JSON.stringify(value))
+
+                if (value && value.state_name && value.state_name.length > 0) {
+                    const selectedState = value.state_name[0];
+                    console.log("Selected state:", selectedState);
+
+                    if (lollipopDonutView){
+                        lollipopDonutView.signal('state_select', selectedState).run();
+                        console.log("Pushed to lollipop", selectedState);
+                    }
+
+                    if (stackedBarView){
+                        stackedBarView.signal('state_select', selectedState).run();
+                    }
+
+                    if (combinedView){
+                        combinedView.signal('state_select', selectedState).run();
                     }
                 }
             });
 
             result.view.addSignalListener('year_select', function(name, value){
-                if (groupedBarView){
-                    groupedBarView.signal('year_select', value).run();
+                if (lollipopDonutView){
+                    lollipopDonutView.signal('year_select', value).run();
+                }
+            });
+        })
+        .catch(console.error);
+
+        vegaEmbed('#vis-lollipop-donut', 'flood_loss_all_lollipop_donut.vg.json', {actions:false})
+        .then(result => {
+            console.log("Lollipop and donut chart rendered successfully");
+            lollipopDonutView = result.view;
+        })
+        .catch(console.error);
+        
+        vegaEmbed('#vis-bar', 'flood_loss_agricultural_stacked_bar_chart.vg.json', {actions: false})
+        .then(result => {
+            stackedBarView = result.view;
+            console.log("Stacked Bar Chart rendered successfully");
+
+            result.view.addSignalListener('state_click', function(name, value){
+
+                if (value && value.State && value.State.length > 0) {
+                    const selectedState = value.State[0];
+
+                    result.view.signal('state_select', selectedState).run();
+
+                    if (combinedView){
+                        combinedView.signal('state_select', selectedState).run();
+                    }
+                }
+            });
+
+            result.view.addSignalListener('year_select', function(name, value){
+                if (combinedView){
+                    combinedView.signal('year_select', value).run();
                 }
             });
         })
@@ -134,7 +428,7 @@
         vegaEmbed('#vis-combined', 'flood_loss_agricultural_grouped_slope_chart.vg.json', {actions:false})
         .then(result => {
             console.log("Combined grouped bar and slope chart rendered successfully");
-            groupedBarView = result.view;
+            combinedView = result.view;
         })
         .catch(console.error);
     </script>

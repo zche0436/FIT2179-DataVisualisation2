@@ -26,6 +26,10 @@
                 "labels": ["2024", "2025"],
                 "name": "Select Year: "
             }
+        },
+        {
+            "name": "state_select",
+            "value":"Kelantan"
         }
     ],
     "hconcat": [
@@ -87,14 +91,14 @@
                     "encoding": {
                         "color":{
                             "condition":{
-                                "test":"datum.State == state_select.State",
+                                "test":"datum.State == state_select",
                                 "value": "#064869"
                             },
                             "value":"#8cc5e3"
                         },
                         "opacity":{
                             "condition":{
-                                "test":"datum.State == state_select.State",
+                                "test":"datum.State == state_select",
                                 "value": 1
                             },
                             "value":0.5
@@ -162,36 +166,24 @@
                         "cursor":"pointer",
                         "opacity":1
                     },
-                    "params": [
-                        {
-                            "name": "state_select",
-                            "value":"Kelantan",
-                            "select":{
-                                "type": "point",
-                                "fields": ["State"],
-                                "on":"click",
-                                "toggle": false
-                            }
-                        }
-                    ],
                     "encoding": {
                         "color":{
                             "condition":{
-                                "test":"datum.State == state_select.State",
+                                "test":"datum.State == state_select",
                                 "value": "#064869"
                             },
                             "value":"#8cc5e3"
                         },
                         "opacity":{
                             "condition":{
-                                "test":"datum.State == state_select.State",
+                                "test":"datum.State == state_select",
                                 "value": 1
                             },
                             "value": 0.5
                         },
                         "size":{
                             "condition":{
-                                "test":"datum.State == state_select.State",
+                                "test":"datum.State == state_select",
                                 "value": 350
                             },
                             "value":170
@@ -220,7 +212,7 @@
         },
         {
             "title":{
-                "text":{"expr": "state_select.State + ' Category Breakdown '"},
+                "text":{"expr": "state_select + ' Category Breakdown '"},
                 "font":"Lora",
                 "fontSize":18,
                 "anchor": "start"
@@ -229,7 +221,7 @@
             "height": 350,
             "transform": [
                 {
-                    "filter":"datum.State == state_select.State"
+                    "filter":"datum.State == state_select"
                 },
                 {
                     "filter":"datum.Year == year_select"

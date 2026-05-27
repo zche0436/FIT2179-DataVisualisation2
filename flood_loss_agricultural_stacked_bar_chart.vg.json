@@ -34,11 +34,15 @@
         },
         {
             "name": "state_select",
-            "value":[{"State": "Kelantan"}],
-            "select":
-            {
+            "value":"Kelantan"
+        },
+        {
+            "name": "state_click",
+            "select":{
                 "type": "point",
-                "fields": ["State"]
+                "fields": ["State"],
+                "on":"click",
+                "toggle": false
             }
         }
     ],
@@ -135,7 +139,7 @@
         },
         "opacity":{
             "condition":{
-                "param": "state_select",
+                "test": "datum.State == state_select",
                 "value": 0.9
             },
             "value": 0.30

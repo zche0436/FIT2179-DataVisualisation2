@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Flood Losses of Agriculture Sector by State",
-    "subtitle": "Total loss across all categories in RM'000",
+    "text": "Total Flood Loss by State (2024 & 2025)",
+    "subtitle": "% of National Loss by State",
     "font": "Lora",
     "fontStyle": "normal",
     "fontSize": 24,
@@ -17,6 +17,10 @@
     "contains": "padding"
   },
   "projection": {"type": "mercator"},
+  "data": {
+    "url": "malaysia_map.json",
+    "format": {"type": "topojson", "feature": "ne_10m_admin_1_states_provinces"}
+  },
   "params": [
     {
         "name": "year_select",
@@ -34,10 +38,6 @@
         }
     }
   ],
-  "data": {
-    "url": "malaysia_map.json",
-    "format": {"type": "topojson", "feature": "ne_10m_admin_1_states_provinces"}
-  },
   "layer":[
     {
         "transform": [
@@ -57,7 +57,22 @@
         }
     },
     {
+        "params": [
+            {
+            "name": "map_state_select",
+            "select":{
+                "type": "point",
+                "fields": ["state_name"],
+                "on":"click",
+                "toggle": false
+            }
+    }
+        ],
         "transform": [
+            {
+                "calculate": "datum.properties.name",
+                "as": "state_name"
+            },
             {
                 "calculate": "datum.properties.name + '_' + toString(year_select)",
                 "as": "state_year_key"
@@ -65,36 +80,63 @@
         {
             "lookup": "state_year_key",
             "from": {
-                "data": {"url": "cleaned_floodloss_agricultural.csv"},
+                "data": {"url": "cleaned_floodloss_all.csv"},
                 "key": "State_Year",
-                "fields": ["Total Loss", "Year"]
+                "fields": ["Total Loss", "Year", "Living Quaters", "Vehicles", "Business Premises", "Manufacturing", 
+                "Agricultural", "Infrastructure"]
             }
+        },
+        {
+            "joinaggregate": [
+                {
+                    "op": "sum", "field": "Total Loss", "as": "National_Total"
+                }
+            ]
+        },
+        {
+            "calculate": "datum['Total Loss'] / datum.National_Total * 100",
+            "as": "Loss Percentage"
         }
         ],
-        "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1},
+        "mark": {"type": "geoshape", "stroke": "#ffffff", "strokeWidth": 1, "cursor":"pointer"},
         "encoding": {
             "color": {
-            "field": "Total Loss",
+            "field": "Loss Percentage",
             "type": "quantitative",
             "scale": {
                 "type": "sqrt",
                 "range": ["#ffffff", "#67000d"]},
-            "title": "Loss (RM '000)",
+            "title": "% of National Loss",
             "legend":{
                 "titleFont":"Inter",
                 "titleFontSize" : 13,
                 "labelFont": "Inter",
-                "labelFontSize": 12
+                "labelFontSize": 12,
+                "format":".1f"
             }
+        },
+        "opacity":{
+            "condition":{
+                "param": "map_state_select",
+                "value": 1
+            },
+            "value": 0.3
         },
             "tooltip": [
             {"field": "properties.name", "type": "nominal", "title": "State"},
             {"field": "Year", "type": "ordinal", "title": "Year"},
             {
+                "field":"Loss Percentage",
+                "type": "quantitative",
+                "title":"% of National Loss",
+                "format":".1f"
+            },
+            {
                 "field": "Total Loss", 
                 "type": "quantitative", 
                 "title": "Total Loss (RM '000)", 
-                "format": ",d"}
+                "format": ",d"
+            }
             ]
         }
     }
