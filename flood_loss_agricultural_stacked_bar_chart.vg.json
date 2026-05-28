@@ -1,170 +1,390 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": {
-        "text": "Suberged Roots",
-        "font": "Playfair Display",
-        "fontStyle": "normal",
-        "fontSize": 20,
-        "anchor": "start",
-        "color":"#0a2343"
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "The Flooded Harvest",
+    "font": "Playfair Display",
+    "fontStyle": "normal",
+    "fontSize": 24,
+    "fontWeight": "bold",
+    "anchor": "start",
+    "color": "#0a2343"
+  },
+  "width": "container",
+  "height": 380,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "params": [
+    {
+      "name": "year_select",
+      "value": 2024,
+      "bind": {
+        "input": "select",
+        "options": [2024, 2025],
+        "labels": ["2024", "2025"],
+        "name": "Select Year: "
+      }
     },
-    "width": 900,
-    "height": 400,
-    "autosize":{
-        "type": "fit",
-        "contains": "padding"
+    {
+        "name": "state_select",
+        "value":"Kelantan"
+    }
+  ],
+  "data": {
+    "url": "cleaned_floodloss_agricultural.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Year": "number",
+        "Paddy": "number",
+        "Crops": "number",
+        "Fisheries": "number",
+        "Livestock": "number",
+        "Fisherman": "number",
+        "Agro-entrepreneur": "number",
+        "High Value Commodity": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.Year == year_select"
     },
-    "params": [
+    {
+      "fold": [
+        "Paddy",
+        "Crops",
+        "Fisheries",
+        "Livestock",
+        "Fisherman",
+        "Agro-entrepreneur",
+        "High Value Commodity"
+      ],
+      "as": ["Category", "Loss"]
+    },
+    {
+      "calculate": "toNumber(datum.Loss)",
+      "as": "Loss_Num"
+    },
+    {
+      "filter": "datum.Loss_Num > 0"
+    },
+    {
+      "joinaggregate": [
         {
-            "name": "year_select",
-            "value": 2024,
-            "bind": {
-                "input": "select",
-                "options": [
-                    2024, 2025
-                ],
-                "labels": [
-                    "2024", "2025"
-                ],
-                "name": "Select Year: "
-            }
-        },
-        {
-            "name": "state_select",
-            "value":"Kelantan"
-        },
-        {
-            "name": "state_click",
-            "select":{
+          "op": "sum",
+          "field": "Loss_Num",
+          "as": "State_Total"
+        }
+      ],
+      "groupby": ["State", "Year"]
+    },
+    {
+      "calculate": "datum.Loss_Num / datum.State_Total",
+      "as": "Share"
+    }
+  ],
+  "layer": [
+    {
+        "params": [
+            {
+                "name": "state_click",
+                "select":{
                 "type": "point",
                 "fields": ["State"],
                 "on":"click",
                 "toggle": false
+                }
             }
-        }
-    ],
-    "data": { "url": "cleaned_floodloss_agricultural.csv" },
-    "transform": [
-        {
-            "filter": "datum.Year == year_select"
-        },
-        {
-            "fold": [
-                "Paddy",
-                "Crops",
-                "Fisheries",
-                "Livestock",
-                "Fisherman",
-                "Agro-entrepreneur",
-                "High Value Commodity"
-            ],
-            "as": [
-                "Category",
-                "Loss"
-            ]
-        },
-        {
-            "filter": "datum.Loss > 0"
-        }
-    ],
-    "mark": { 
+        ],
+      "mark": {
         "type": "bar",
         "cornerRadiusTopLeft": 3,
         "cornerRadiusTopRight": 3,
-        "cursor": "poDM Sans"
-    },
-    "encoding": {
-       "x": {
-        "field": "State",
-        "type": "nominal",
-        "sort":{
+        "cursor": "pointer"
+      },
+      "encoding": {
+        "x": {
+          "field": "State",
+          "type": "nominal",
+          "sort": {
             "op": "sum",
-            "field": "Loss",
+            "field": "Loss_Num",
             "order": "descending"
-        },
-        "axis":{
+          },
+          "axis": {
             "labelAngle": -30,
             "labelFont": "DM Sans",
             "labelFontSize": 12,
+            "labelColor": "#2c3e50",
             "title": null
-        }
-       },
-        "y":{
-            "field": "Loss",
-            "type": "quantitative",
-            "stack": "normalize",
-            "axis":{
-                "title": "Proportion of Loss",
-                "titleFont": "DM Sans",
-                "titleFontSize": 13,
-                "labelFont": "DM Sans",
-                "labelFontSize": 12,
-                "format": "%",
-                "grid": false
-            }
+          }
         },
-        "color":{
-            "field":"Category",
+        "y": {
+          "field": "Loss_Num",
+          "type": "quantitative",
+          "stack": "normalize",
+          "scale":{"domain":[0, 1.15]},
+          "axis": {
+            "title": "Proportion of Agricultural Loss",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "format": "%",
+            "grid": false
+          }
+        },
+        "color": {
+          "field": "Category",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Paddy",
+              "Crops",
+              "Fisheries",
+              "Livestock",
+              "Fisherman",
+              "Agro-entrepreneur",
+              "High Value Commodity"
+            ],
+            "range": [
+              "#c99b38",
+              "#0d7d87",
+              "#8cc5e3",
+              "#4a2377",
+              "#f55f74",
+              "#003a7d",
+              "#ea801c"
+            ]
+          },
+          "legend": {
+            "title": "Category",
+            "orient": "right",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50"
+          }
+        },
+        "opacity": {
+          "condition": {
+            "test": "state_click && state_click.State && length(state_click.State) > 0 ? indexof(state_click.State, datum.State) >= 0 : datum.State == 'Kelantan'",
+            "value": 1
+          },
+          "value": 0.3
+        },
+        "tooltip": [
+          {
+            "field": "State",
             "type": "nominal",
-            "scale": {
-                "domain":[
-                    "Paddy",
-                    "Crops",
-                    "Fisheries",
-                    "Livestock",
-                    "Fisherman",
-                    "Agro-entrepreneur",
-                    "High Value Commodity"
-                ],
-                "range":[
-                    "#c99b38",
-                    "#0d7d87",
-                    "#8cc5e3",
-                    "#4a2377",
-                    "#f55f74",
-                    "#003a7d",
-                    "#ea801c"
-                ]
-            },
-            "legend":{
-                "title": "Category",
-                "titleFont": "DM Sans",
-                "titleFontSize": 13,
-                "labelFont": "DM Sans",
-                "labelFontSize": 12
-            }
-        },
-        "opacity":{
-            "condition":{
-                "test": "datum.State == state_select",
-                "value": 0.9
-            },
-            "value": 0.30
-            
-        },
-        "tooltip":[
-            {
-                "field":"State",
-                "type": "nominal",
-                "title": "State"
-            },
-            {
-                "field": "Category",
-                "type": "nominal",
-                "title": "Category"
-            },
-            {
-                "field": "Year",
-                "type": "ordinal",
-                "title": "Year"
-            }
+            "title": "State"
+          },
+          {
+            "field": "Category",
+            "type": "nominal",
+            "title": "Category"
+          },
+          {
+            "field": "Loss_Num",
+            "type": "quantitative",
+            "title": "Loss (RM '000)",
+            "format": ",.0f"
+          },
+          {
+            "field": "Share",
+            "type": "quantitative",
+            "title": "Share of State Loss",
+            "format": ".1%"
+          },
+          {
+            "field": "State_Total",
+            "type": "quantitative",
+            "title": "State Agricultural Total (RM '000)",
+            "format": ",.0f"
+          }
         ]
+      }
     },
-    "config": {
-        "font": "DM Sans",
-        "view": {
-            "stroke": null
+    {
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "category_rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "Loss_Num",
+              "order": "descending"
+            }
+          ],
+          "groupby": ["State"]
+        },
+        {
+          "filter": "datum.category_rank == 1"
+        },
+        {
+          "calculate": "format(datum.Share, '.0%')",
+          "as": "dominant_share"
         }
+      ],
+      "mark": {
+        "type": "text",
+        "font": "DM Sans",
+        "fontSize": 12,
+        "fontWeight": "bold",
+        "dy": -8
+      },
+      "encoding": {
+        "x": {
+          "field": "State",
+          "type": "nominal",
+          "sort": {
+            "op": "sum",
+            "field": "Loss_Num",
+            "order": "descending"
+          }
+        },
+        "y": {
+          "datum": 1,
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "dominant_share"
+        },
+        "color": {
+          "field": "Category",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Paddy",
+              "Crops",
+              "Fisheries",
+              "Livestock",
+              "Fisherman",
+              "Agro-entrepreneur",
+              "High Value Commodity"
+            ],
+            "range": [
+              "#c99b38",
+              "#0d7d87",
+              "#8cc5e3",
+              "#4a2377",
+              "#f55f74",
+              "#003a7d",
+              "#ea801c"
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "category_rank"
+            }
+          ],
+          "sort": [
+            {
+              "field": "Loss_Num",
+              "order": "descending"
+            }
+          ],
+          "groupby": ["State"]
+        },
+        {
+          "filter": "datum.category_rank == 1"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "stroke": "#ffffff",
+        "strokeWidth": 1,
+        "opacity": 0.9
+      },
+      "encoding": {
+        "x": {
+          "field": "State",
+          "type": "nominal",
+          "sort": {
+            "op": "sum",
+            "field": "Loss_Num",
+            "order": "descending"
+          }
+        },
+        "y": {
+          "datum": 1.08,
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "State_Total",
+          "type": "quantitative",
+          "scale": {
+            "range": [60, 420]
+          },
+          "legend": {
+            "title": "Total agricultural loss",
+            "orient": "right",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "format": "~s",
+            "values":[5000, 20000, 40000, 60000, 80000, 100000],
+            "labelExpr": "datum.value == 5000 ? '<20k' : format(datum.value, '~s')"
+          }
+        },
+        "color": {
+          "value": "#0a2343"
+        },
+        "tooltip": [
+          {
+            "field": "State",
+            "type": "nominal",
+            "title": "State"
+          },
+          {
+            "field": "State_Total",
+            "type": "quantitative",
+            "title": "Total Agricultural Loss (RM '000)",
+            "format": ",.0f"
+          },
+          {
+            "field": "Category",
+            "type": "nominal",
+            "title": "Dominant Category"
+          },
+          {
+            "field": "Share",
+            "type": "quantitative",
+            "title": "Dominant Share",
+            "format": ".1%"
+          }
+        ]
+      }
     }
-    
+  ],
+  "config": {
+    "font": "DM Sans",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domainColor": "#dce4ed",
+      "tickColor": "#dce4ed"
+    }
+  }
 }
