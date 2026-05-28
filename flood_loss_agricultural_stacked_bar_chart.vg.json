@@ -2,12 +2,11 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
         "text": "Suberged Roots",
-        "font": "Lora",
+        "font": "Playfair Display",
         "fontStyle": "normal",
         "fontSize": 20,
         "anchor": "start",
-        "subtitleFont": "Inter",
-        "subtitleFontSize": 16
+        "color":"#0a2343"
     },
     "width": 900,
     "height": 400,
@@ -72,7 +71,7 @@
         "type": "bar",
         "cornerRadiusTopLeft": 3,
         "cornerRadiusTopRight": 3,
-        "cursor": "pointer"
+        "cursor": "poDM Sans"
     },
     "encoding": {
        "x": {
@@ -85,7 +84,7 @@
         },
         "axis":{
             "labelAngle": -30,
-            "labelFont": "Inter",
+            "labelFont": "DM Sans",
             "labelFontSize": 12,
             "title": null
         }
@@ -96,9 +95,9 @@
             "stack": "normalize",
             "axis":{
                 "title": "Proportion of Loss",
-                "titleFont": "Inter",
+                "titleFont": "DM Sans",
                 "titleFontSize": 13,
-                "labelFont": "Inter",
+                "labelFont": "DM Sans",
                 "labelFontSize": 12,
                 "format": "%",
                 "grid": false
@@ -129,9 +128,9 @@
             },
             "legend":{
                 "title": "Category",
-                "titleFont": "Inter",
+                "titleFont": "DM Sans",
                 "titleFontSize": 13,
-                "labelFont": "Inter",
+                "labelFont": "DM Sans",
                 "labelFontSize": 12
             }
         },
@@ -162,7 +161,7 @@
         ]
     },
     "config": {
-        "font": "Inter",
+        "font": "DM Sans",
         "view": {
             "stroke": null
         }

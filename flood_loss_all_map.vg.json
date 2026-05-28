@@ -1,20 +1,17 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Where the Water Settles?",
-    "font": "Lora",
+    "text": "Where the Water Settles",
+    "font": "Playfair Display",
     "fontStyle": "normal",
-    "fontSize": 20,
+    "fontWeight":"bold",
+    "fontSize": 24,
     "anchor": "start",
-    "subtitleFont": "Inter",
-    "subtitleFontSize": 16
+    "color":"#0a2343"
   },
-  "width": 900,
-  "height": 400,
-  "autosize": {
-    "type": "fit",
-    "contains": "padding"
-  },
+  "width": "container",
+  "height": 300,
+  "autosize":{"type": "fit-x", "contains": "padding"},
   "projection": {"type": "mercator"},
   "data": {
     "url": "malaysia_map.json",
@@ -47,7 +44,7 @@
         ],
         "mark": {
             "type": "geoshape",
-            "fill": "#eaeaea",
+            "fill": "#f2f5f9",
             "stroke": "#ffffff",
             "strokeWidth": 1.2
         },
@@ -65,7 +62,7 @@
                 "on":"click",
                 "toggle": false
             }
-    }
+        }
         ],
         "transform": [
             {
@@ -103,15 +100,22 @@
             "field": "Loss Percentage",
             "type": "quantitative",
             "scale": {
-                "type": "sqrt",
+                "type": "linear",
+                "domainMin":0,
+                "domainMax":30,
                 "range": ["#ffffff", "#67000d"]},
             "title": "% of National Loss",
             "legend":{
-                "titleFont":"Inter",
+                "titleFont":"DM Sans",
                 "titleFontSize" : 13,
-                "labelFont": "Inter",
+                "titleColor":"#0d1b2a",
+                "labelFont": "DM Sans",
                 "labelFontSize": 12,
-                "format":".1f"
+                "labelColor":"#2c3e50",
+                "format":".0f",
+                "gradientLength":160,
+                "gradientThickness":16,
+                "values":[0,5, 10, 15, 20, 25,30]
             }
         },
         "opacity":{
@@ -120,6 +124,20 @@
                 "value": 1
             },
             "value": 0.3
+        },
+        "stroke":{
+            "condition":{
+                "param": "map_state_select",
+                "value":"#0a2343"
+            },
+            "value":"#ffffff"
+        },
+        "strokeWidth":{
+            "condition":{
+                "param": "map_state_select",
+                "value":2
+            },
+            "value":1
         },
             "tooltip": [
             {"field": "properties.name", "type": "nominal", "title": "State"},
@@ -138,7 +156,187 @@
             }
             ]
         }
+    },
+    {
+  "data": {
+    "values": [
+      {
+        "box": "annotation"
+      }
+    ]
+  },
+  "mark": {
+    "type": "rect",
+    "fill": "#ffffff",
+    "stroke": "#dce4ed",
+    "strokeWidth":1,
+    "cornerRadius": 10,
+    "opacity": 0.95
+  },
+  "encoding": {
+    "x": { "value": 225 },
+    "x2": { "value": 575 },
+    "y": { "value": 80 },
+    "y2": { "value": 180 }
+  }
+},
+{
+  "data": {
+    "url": "cleaned_floodloss_all.csv",
+    "format":{
+        "type": "csv",
+        "parse":{"Year":"number", "Total Loss": "number"}
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.Year == year_select"
+    },
+    {
+        "calculate": "toNumber(datum['Total Loss'])",
+        "as": "Total_Loss_Num"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "Total Loss",
+          "as": "National_Total"
+        }
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "loss_rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "Total Loss",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.loss_rank <= 3"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "Total Loss",
+          "as": "Top3_Total"
+        }
+      ]
+    },
+    {
+      "filter": "datum.loss_rank == 1"
+    },
+    {
+      "calculate": "'In ' + toString(year_select) + ', the top 3 states carry ' + format(datum.Top3_Total / datum.National_Total * 100, '.1f') + '% of national loss.'",
+      "as": "main_note"
     }
   ],
-  "config": {"font": "Inter"}
+  "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "top",
+    "font": "DM Sans",
+    "fontSize": 12,
+    "fontWeight": "bold",
+    "fill": "#0d1b2a"
+  },
+  "encoding": {
+    "x": { "value": 245 },
+    "y": { "value": 90 },
+    "text": { "field": "main_note" }
+  }
+},
+{
+  "data": {
+    "url": "cleaned_floodloss_all.csv",
+    "format":{"type": "csv",
+"parse":{
+    "Year":"number",
+    "Total Loss":"number"
+}}
+  },
+  "transform": [
+    {
+      "filter": "datum.Year == year_select"
+    },
+    {
+        "calculate": "toNumber(datum['Total Loss'])",
+        "as": "Total_Loss_Num"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "Total Loss",
+          "as": "National_Total"
+        }
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "loss_rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "Total Loss",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.loss_rank <= 3"
+    },
+    {
+      "calculate": "datum.loss_rank + '. ' + datum.State + ' — ' + format(datum['Total Loss'] / datum.National_Total * 100, '.1f') + '%'",
+      "as": "state_note"
+    },
+    {
+      "calculate": "113 + (datum.loss_rank - 1) * 22",
+      "as": "label_y"
+    },
+    {
+        "calculate": "'Top 3 states carry ' + format(datum.Top3_Total / datum.National_Total * 100, '.1f') + '% of national flood loss in ' + toString(year_select) + '.'",
+        "as": "main_note"
+    }
+  ],
+  "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "top",
+    "font": "DM Sans",
+    "fontSize": 12,
+    "fill": "#2c3e50"
+  },
+  "encoding": {
+    "x": { "value": 251 },
+    "y": {
+      "field": "label_y",
+      "type": "quantitative",
+      "scale": null
+    },
+    "text": { "field": "state_note" }
+  }
+}
+  ],
+  "config": {"font": "DM Sans",
+"view": {"stroke":null},
+"legend": {
+    "labelFont":"DM Sans",
+    "titleFont":"DM Sans",
+    "labelFontSize":12,
+    "titleFontSize":13,
+    "titleColor":"#0d1b2a",
+    "labelColor":"#2c3e50"
+}}
 }

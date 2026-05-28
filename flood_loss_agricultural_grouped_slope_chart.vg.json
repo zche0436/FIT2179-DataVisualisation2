@@ -2,12 +2,11 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title":{
         "text": "High Water Marks",
-        "font": "Lora",
+        "font": "Playfair Display",
         "fontStyle": "normal",
         "fontSize": 20,
         "anchor": "start",
-        "subtitleFont": "Inter",
-        "subtitleFontSize": 16
+        "color":"#0a2343"
     },
     "data":{
         "url": "cleaned_floodloss_agricultural.csv"
@@ -29,7 +28,7 @@
         {
             "title":{
                 "text": "Loss by Category",
-                "font":"Lora",
+                "font":"Playfair Display",
                 "fontSize":18,
                 "anchor": "start"
             },
@@ -77,7 +76,7 @@
             },
             "axis":{
                 "labelAngle": -30,
-                "labelFont":"Inter",
+                "labelFont":"DM Sans",
                 "labelFontSize": 12,
                 "title":null
             }
@@ -92,9 +91,9 @@
             },
             "axis":{
                 "title": "Loss (RM '000)",
-                "titleFont": "Inter",
+                "titleFont": "DM Sans",
                 "titleFontSize": 13,
-                "labelFont": "Inter",
+                "labelFont": "DM Sans",
                 "labelFontSize": 12,
                 "grid": false,
                 "tickCount": 5,
@@ -126,9 +125,9 @@
             },
             "legend":{
                 "title":"Category",
-                "titleFont":"Inter",
+                "titleFont":"DM Sans",
                 "titleFontSize":13,
-                "labelFont":"Inter",
+                "labelFont":"DM Sans",
                 "labelFontSize":12
             }
         },
@@ -161,7 +160,7 @@
     {
         "title":{
             "text":"Loss Change 2024 → 2025",
-            "font":"Lora",
+            "font":"Playfair Display",
             "fontSize":18,
             "anchor": "start"
         },
@@ -202,7 +201,7 @@
                 "field":"Year",
                 "type": "ordinal",
                 "axis":{
-                    "labelFont":"Inter",
+                    "labelFont":"DM Sans",
                     "labelFontSize": 12,
                     "labelAngle":0,
                     "title":null,
@@ -217,9 +216,9 @@
                 },
                 "axis":{
                     "title": "Loss (RM '000)",
-                    "titleFont": "Inter",
+                    "titleFont": "DM Sans",
                     "titleFontSize": 13,
-                    "labelFont": "Inter",
+                    "labelFont": "DM Sans",
                     "labelFontSize": 12,
                     "grid": false
                 }
@@ -249,9 +248,9 @@
                 },
                 "legend":{
                     "title": "Category",
-                    "titleFont": "Inter",
+                    "titleFont": "DM Sans",
                     "titleFontSize": 13,
-                    "labelFont": "Inter",
+                    "labelFont": "DM Sans",
                     "labelFontSize": 12
                 }
             },
@@ -331,7 +330,7 @@
     }
 ],
     "config": {
-        "font": "Inter",
+        "font": "DM Sans",
         "view": {"stroke":null}
     }
 }

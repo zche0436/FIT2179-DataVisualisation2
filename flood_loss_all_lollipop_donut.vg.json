@@ -1,325 +1,560 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title":{
-        "text":"What Rivers Leave Behind",
-        "font":"Lora",
-        "fontStyle":"normal",
-        "fontSize":20,
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "What Rivers Leave Behind",
+    "font": "Playfair Display",
+    "fontStyle": "normal",
+    "fontSize": 24,
+    "fontWeight":"bold",
+    "anchor": "start",
+    "color": "#0a2343"
+  },
+  "data": {
+    "url": "cleaned_floodloss_all.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Year": "number",
+        "Total Loss": "number",
+        "Living Quarters": "number",
+        "Vehicles": "number",
+        "Business Premises": "number",
+        "Manufacturing": "number",
+        "Agriculture": "number",
+        "Infrastructure": "number"
+      }
+    }
+  },
+  "params": [
+    {
+      "name": "year_select",
+      "value": 2024,
+      "bind": {
+        "input": "select",
+        "options": [2024, 2025],
+        "labels": ["2024", "2025"],
+        "name": "Select Year: "
+      }
+    },
+    {
+        "name": "state_select",
+        "value":"Kelantan"
+    }
+  ],
+  "spacing": 36,
+  "hconcat": [
+    {
+      "title": {
+        "text": "State Loss Ranking",
+        "font": "Playfair Display",
+        "fontSize": 18,
+        "fontWeight": "bold",
         "anchor": "start",
-        "subtitleFont": "Inter",
-        "subtitleFontSize": 16
-    },
-    "data":{
-        "url": "cleaned_floodloss_all.csv"
-    },
-    "params": [
+        "color": "#0d1b2a"
+      },
+      "width": 390,
+      "height": 380,
+      "transform": [
         {
-            "name": "year_select",
-            "value":2024,
-            "bind":{
-                "input": "select",
-                "options":[2024, 2025],
-                "labels": ["2024", "2025"],
-                "name": "Select Year: "
-            }
+          "filter": "datum.State != 'Malaysia'"
         },
         {
-            "name": "state_select",
-            "value":"Kelantan"
-        }
-    ],
-    "hconcat": [
+          "filter": "datum.Year == year_select"
+        },
         {
-            "title":{
-                "text":"Total Loss by State",
-                "font":"Inter",
-                "fontSize":13,
-                "anchor": "start"
-            },
-            "width":350,
-            "height":400,
-            "transform": [
+            "calculate": "toNumber(datum['Total Loss'])",
+            "as": "Total_Loss_Num"
+        },
+        {
+            "window": [
                 {
-                    "filter":"datum.State != 'Malaysia'"
-                },
-                {
-                    "filter": "datum.Year == year_select"
+                    "op":"rank",
+                    "as": "loss_rank"
                 }
             ],
-            "encoding": {
-                "x":{
-                            "field":"Total Loss",
-                            "type": "quantitative",
-                            "axis":{
-                                "title":"Total Loss (RM '000)",
-                                "titleFont":"Inter",
-                                "titleFontSize":13,
-                                "labelFont":"Inter",
-                                "labelFontSize":12,
-                                "grid": true,
-                                "gridColor": "#e3e8ed",
-                                "format":"~s"
-                            }
-                    },
-                "y":{
-                            "field":"State",
-                            "type": "nominal",
-                            "sort": {
-                                "field":"Total Loss",
-                                "op": "sum",
-                                "order":"descending"
-                            },
-                            "axis":{
-                                "title":null,
-                                "labelFont":"Inter",
-                                "labelFontSize":12
-                            }
-                        }
-            },
-            "layer": [
+            "sort": [
                 {
-                    "mark":{
-                        "type": "bar",
-                        "cornerRadiusTopRight": 3,
-                        "cornerRadiusBottomRight": 3,
-                        "opacity":1
-                    },
-                    "encoding": {
-                        "color":{
-                            "condition":{
-                                "test":"datum.State == state_select",
-                                "value": "#064869"
-                            },
-                            "value":"#8cc5e3"
-                        },
-                        "opacity":{
-                            "condition":{
-                                "test":"datum.State == state_select",
-                                "value": 1
-                            },
-                            "value":0.5
-                        },
-                        "tooltip":[
-                            {
-                                "field":"State",
-                                "type": "nominal",
-                                "title":"State"
-                            },
-                            {
-                                "field":"Year",
-                                "type": "ordinal",
-                                "title":"Year"
-                            },
-                            {
-                                "field":"Total Loss",
-                                "type": "quantitative",
-                                "title":"Total Loss (RM '000)",
-                                "format": ",.0f"
-                            },
-                            {
-                                "field":"Living Quarters",
-                                "type": "quantitative",
-                                "title":"Living Quarters (RM '000)",
-                                "format":",.0f"
-                            },
-                            {
-                                "field":"Vehicles",
-                                "type": "quantitative",
-                                "title":"Vehicles (RM '000)",
-                                "format":",.0f"
-                            },
-                            {
-                                "field":"Business Premises",
-                                "type": "quantitative",
-                                "title":"Business Premises (RM '000)",
-                                "format":",.0f"
-                            },
-                            {
-                                "field":"Manufacturing",
-                                "type": "quantitative",
-                                "title":"Manufacturing (RM '000)",
-                                "format":",.0f"
-                            },
-                            {
-                                "field":"Agriculture",
-                                "type": "quantitative",
-                                "title":"Agriculture (RM '000)",
-                                "format":",.0f"
-                            },
-                            {
-                                "field":"Infrastructure",
-                                "type": "quantitative",
-                                "title":"Infrastructure (RM '000)",
-                                "format":",.0f"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "mark":{
-                        "type": "point",
-                        "filled": true,
-                        "cursor":"pointer",
-                        "opacity":1
-                    },
-                    "encoding": {
-                        "color":{
-                            "condition":{
-                                "test":"datum.State == state_select",
-                                "value": "#064869"
-                            },
-                            "value":"#8cc5e3"
-                        },
-                        "opacity":{
-                            "condition":{
-                                "test":"datum.State == state_select",
-                                "value": 1
-                            },
-                            "value": 0.5
-                        },
-                        "size":{
-                            "condition":{
-                                "test":"datum.State == state_select",
-                                "value": 350
-                            },
-                            "value":170
-                        },
-                        "tooltip":[
-                            {
-                                "field":"State",
-                                "type": "nominal",
-                                "title":"State"
-                            },
-                            {
-                                "field":"Year",
-                                "type": "ordinal",
-                                "title":"Year"
-                            },
-                            {
-                                "field":"Total Loss",
-                                "type": "quantitative",
-                                "title":"Total Loss (RM '000)",
-                                "format":",.0f"
-                            }
-                        ]
-                    }
+                    "field": "Total_Loss_Num",
+                    "order":"descending"
                 }
             ]
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "Total_Loss_Num",
+          "type": "quantitative",
+          "axis": {
+            "title": "Total Loss (RM '000)",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "grid": true,
+            "gridColor": "#dce4ed",
+            "format": "~s"
+          }
+        },
+        "y": {
+          "field": "State",
+          "type": "nominal",
+          "sort": {
+            "field": "loss_rank",
+            "op": "min",
+            "order": "ascending"
+          },
+          "axis": {
+            "title": null,
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50"
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "rule",
+            "opacity": 0.65
+          },
+          "encoding": {
+            "x": {
+              "datum": 0,
+              "type": "quantitative"
+            },
+            "x2": {
+              "field": "Total_Loss_Num"
+            },
+            "color": {
+              "condition": {
+                "test": "datum.State == state_select",
+                "value": "#064869"
+              },
+              "value": "#8cc5e3"
+            },
+            "strokeWidth":{
+                "condition":{"test":"datum.State == state_select",
+            "value":4.5},
+            "value":3.4
+            },
+            "opacity": {
+              "condition": {
+                "test": "datum.State == state_select",
+                "value": 1
+              },
+              "value": 0.45
+            }
+          }
         },
         {
-            "title":{
-                "text":{"expr": "state_select + ' Category Breakdown '"},
-                "font":"Lora",
-                "fontSize":18,
-                "anchor": "start"
+        "params": [
+            {
+                "name": "state_click",
+                "select":{
+                    "type": "point",
+                    "fields": ["State"],
+                    "on":"click",
+                    "toggle": false
+                }
+            }
+        ],
+          "mark": {
+            "type": "point",
+            "filled": true,
+            "cursor": "pointer",
+            "opacity":1
+          },
+          "encoding": {
+            "color": {
+              "condition": {
+                "test": "datum.State == state_select",
+                "value": "#064869"
+              },
+              "value": "#8cc5e3"
             },
-            "width":350,
-            "height": 350,
-            "transform": [
+            "opacity": {
+              "condition": {
+                "test": "datum.State == state_select",
+                "value": 1
+              },
+              "value": 0.5
+            },
+            "size": {
+              "condition": {
+                "test": "datum.State == state_select",
+                "value": 300
+              },
+              "value": 150
+            },
+            "tooltip": [
+              {
+                "field": "State",
+                "type": "nominal",
+                "title": "State"
+              },
+              {
+                "field": "Year",
+                "type": "ordinal",
+                "title": "Year"
+              },
+              {
+                "field": "Total_Loss_Num",
+                "type": "quantitative",
+                "title": "Total Loss (RM '000)",
+                "format": ",.0f"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": {
+        "text": {
+          "expr": "state_select + ' Loss Composition'"
+        },
+        "font": "Playfair Display",
+        "fontSize": 18,
+        "fontWeight":"bold",
+        "anchor": "start",
+        "color": "#0a2343"
+      },
+      "width": 380,
+      "height": 380,
+      "transform": [
+        {
+          "filter": "datum.State == state_select"
+        },
+        {
+          "filter": "datum.Year == year_select"
+        },
+        {
+          "fold": [
+            "Living Quarters",
+            "Vehicles",
+            "Business Premises",
+            "Manufacturing",
+            "Agriculture",
+            "Infrastructure"
+          ],
+          "as": ["Category", "Loss"]
+        },
+        {
+          "filter": "datum.Loss > 0"
+        },
+        {
+          "joinaggregate": [
+            {
+              "op": "sum",
+              "field": "Loss",
+              "as": "Total"
+            }
+          ]
+        },
+        {
+          "calculate": "datum.Loss / datum.Total * 100",
+          "as": "Percentage"
+        },
+        {
+          "calculate": "format(datum.Percentage, '.1f') + '%'",
+          "as": "Percentage_Label"
+        },
+        {
+            "window": [
                 {
-                    "filter":"datum.State == state_select"
-                },
-                {
-                    "filter":"datum.Year == year_select"
-                },
-                {
-                    "fold": [
-                        "Living Quarters",
-                        "Vehicles",
-                        "Business Premises",
-                        "Manufacturing",
-                        "Agriculture",
-                        "Infrastructure"
-                    ],
-                    "as": [
-                        "Category", "Loss"
-                    ]
-                },
-                {
-                    "filter":"datum.Loss > 0"
-                },
-                {
-                    "joinaggregate": [
-                        {
-                            "op": "sum",
-                            "field": "Loss",
-                            "as": "Total"
-                        }
-                    ]
-                },
-                {
-                    "calculate": "datum.Loss / datum.Total * 100",
-                    "as": "Percentage"
+                    "op":"rank",
+                    "as": "category_rank"
                 }
             ],
-            "mark":{
-                "type": "arc",
-                "innerRadius": 70,
-                "stroke": "white",
-                "strokeWidth": 0.5,
-                "outerRadius": 130,
-                "cursor": "pointer"
+            "sort": [
+                {
+                    "field": "Loss",
+                    "order":"descending"
+                }
+            ]
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "arc",
+            "innerRadius": 85,
+            "outerRadius": 150,
+            "stroke": "#ffffff",
+            "cursor": "pointer",
+            "strokeWidth": 1.5
+        },
+    
+          "encoding": {
+            "theta": {
+              "field": "Loss",
+              "type": "quantitative",
+              "stack": true
             },
-            "encoding": {
-                "theta":{
-                    "field":"Percentage",
-                    "type": "quantitative",
-                    "stack":true
+            "opacity":{
+                "condition":{
+                    "test": "datum.category_rank == 1",
+                    "value": 1
                 },
-                "color":{
-                    "field":"Category",
-                    "type": "nominal",
-                    "scale":{
-                        "domain":[
-                            "Living Quarters",
-                            "Vehicles",
-                            "Business Premises",
-                            "Manufacturing",
-                            "Agriculture",
-                            "Infrastructure"
-                        ],
-                        "range":[
-                            "#f0a2ab",
-                            "#bdba82",
-                            "#f5b285",
-                            "#93b7db",
-                            "#a2d7bb",
-                            "#bfa2db"
-                        ]
-                    },
-                    "legend":{
-                        "title":"Category",
-                        "titleFont":"Inter",
-                        "titleFontSize": 13,
-                        "labelFont":"Inter",
-                        "labelFontSize": 12
+                "value":0.7
+            },
+            "color": {
+              "field": "Category",
+              "type": "nominal",
+              "scale": {
+                "domain": [
+                  "Living Quarters",
+                  "Vehicles",
+                  "Business Premises",
+                  "Manufacturing",
+                  "Agriculture",
+                  "Infrastructure"
+                ],
+                "range": [
+                  "#f0a2ab",
+                  "#bdba82",
+                  "#f5b285",
+                  "#93b7db",
+                  "#a2d7bb",
+                  "#bfa2db"
+                ]
+              },
+              "legend": {
+                "title": "Category",
+                "orient": "right",
+                "titleFont": "DM Sans",
+                "titleFontSize": 13,
+                "titleColor": "#0d1b2a",
+                "labelFont": "DM Sans",
+                "labelFontSize": 12,
+                "labelColor": "#2c3e50",
+                "symbolType": "circle"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "Category",
+                "type": "nominal",
+                "title": "Category"
+              },
+              {
+                "field": "Percentage",
+                "type": "quantitative",
+                "title": "Share (%)",
+                "format": ".1f"
+              },
+              {
+                "field": "Loss",
+                "type": "quantitative",
+                "title": "Loss (RM '000)",
+                "format": ",.0f"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "window": [
+                {
+                  "op": "rank",
+                  "as": "loss_rank"
+                }
+              ],
+              "sort": [
+                {
+                  "field": "Loss",
+                  "order": "descending"
+                }
+              ]
+            },
+            {
+              "filter": "datum.loss_rank == 1"
+            },
+            {
+              "calculate": "format(toNumber(datum['Total Loss']), ',.0f')",
+              "as": "total_label"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "middle",
+            "font": "Playfair Display",
+            "fontSize": 25,
+            "fontWeight": "bold",
+            "fill": "#0a2343"
+          },
+          "encoding": {
+            "x": {
+              "value": 190
+            },
+            "y": {
+              "value": 188
+            },
+            "text": {
+              "field": "total_label"
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "window": [
+                {
+                  "op": "rank",
+                  "as": "loss_rank"
+                }
+              ],
+              "sort": [
+                {
+                  "field": "Loss",
+                  "order": "descending"
+                }
+              ]
+            },
+            {
+              "filter": "datum.loss_rank == 1"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "middle",
+            "font": "DM Sans",
+            "fontSize": 11,
+            "fontWeight": "bold",
+            "fill": "#6b7c93",
+            "text": "RM '000 total"
+          },
+          "encoding": {
+            "x": {
+              "value": 190
+            },
+            "y": {
+              "value": 216
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "radius": 172,
+            "font": "DM Sans",
+            "fontSize": 11,
+            "fontWeight": "bold",
+            "fill": "#2c3e50"
+          },
+          "encoding": {
+            "theta": {
+              "field": "Loss",
+              "type": "quantitative",
+              "stack": true
+            },
+            "text": {
+              "condition": {
+                "test": "datum.Percentage > 8",
+                "field": "Percentage_Label"
+              },
+              "value": ""
+            }
+          }
+        },
+    {
+        "transform": [
+            {
+                "window": [
+                    {
+                        "op":"rank",
+                        "as": "loss_rank"
                     }
-                },
-                "tooltip":[
+                ],
+                "sort": [
                     {
-                        "field":"Category",
-                        "type": "nominal",
-                        "title":"Category"
-                    },
-                    {
-                        "field":"Percentage",
-                        "type": "quantitative",
-                        "title":"Proportion (%)",
-                        "format": ".1f"
-                    },
-                    {
-                        "field":"Loss",
-                        "type": "quantitative",
-                        "title":"Loss (RM '000)",
-                        "format": ",.0f"
+                        "field": "Loss",
+                        "order":"descending"
                     }
                 ]
+            },
+            {
+                "filter":"datum.loss_rank == 1"
+            },
+            {
+                "calculate": "'Main Damage Driver:'",
+                "as": "note_title"
+            },
+            {
+                "calculate": "datum.Category + ' makes up ' + format(datum.Percentage, '.1f') + '% of ' + state_select + ' flood losses'",
+                "as": "note_body"
             }
-        }
-    ],
-    "config": {
-        "font": "Inter",
-        "view": {"stroke": null},
-        "scale": {"bandPaddingInner": 0.8}
+        ],
+        "layer": [
+            {
+                "mark":{
+                    "type": "text",
+                    "align":"left",
+                    "baseline":"top",
+                    "font": "DM Sans",
+                    "fontSize": 12,
+                    "fontWeight": "bold",
+                    "fill": "#0d1b2a"
+                },
+                "encoding": {
+                "x": { "value": 50 },
+                "y": { "value": 355 },
+                "text": { "field": "note_title" }
+                }
+            },
+            {
+            "mark": {
+                "type": "text",
+                "align": "left",
+                "baseline": "top",
+                "font": "DM Sans",
+                "fontSize": 12,
+                "fill": "#2c3e50",
+                "lineBreak": "\n"
+            },
+            "encoding": {
+                "x": { "value": 50 },
+                "y": { "value": 370 },
+                "text": { "field": "note_body" }
+            }
+            }
+        ]
     }
+        
+      ]
+    }
+  ],
+  "config": {
+    "font": "DM Sans",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "DM Sans",
+      "titleFont": "DM Sans",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "labelColor": "#2c3e50",
+      "titleColor": "#0d1b2a",
+      "domainColor": "#dce4ed",
+      "tickColor": "#dce4ed",
+      "gridColor": "#dce4ed"
+    },
+    "legend": {
+      "labelFont": "DM Sans",
+      "titleFont": "DM Sans",
+      "labelFontSize": 12,
+      "titleFontSize": 13,
+      "titleColor": "#0d1b2a",
+      "labelColor": "#2c3e50"
+    },
+    "scale": {
+      "bandPaddingInner": 0.3
+    }
+  }
 }
