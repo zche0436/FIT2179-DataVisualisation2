@@ -18,7 +18,7 @@
         "Total Loss": "number",
         "Living Quarters": "number",
         "Vehicles": "number",
-        "Business Premises": "number",
+        "Business Premisses": "number",
         "Manufacturing": "number",
         "Agriculture": "number",
         "Infrastructure": "number"
@@ -234,7 +234,7 @@
           "fold": [
             "Living Quarters",
             "Vehicles",
-            "Business Premises",
+            "Business Premisses",
             "Manufacturing",
             "Agriculture",
             "Infrastructure"
@@ -307,7 +307,7 @@
                 "domain": [
                   "Living Quarters",
                   "Vehicles",
-                  "Business Premises",
+                  "Business Premisses",
                   "Manufacturing",
                   "Agriculture",
                   "Infrastructure"

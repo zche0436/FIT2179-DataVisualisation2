@@ -78,7 +78,7 @@
             "from": {
                 "data": {"url": "cleaned_floodloss_all.csv"},
                 "key": "State_Year",
-                "fields": ["Total Loss", "Year", "Living Quaters", "Vehicles", "Business Premises", "Manufacturing", 
+                "fields": ["Total Loss", "Year", "Living Quaters", "Vehicles", "Business Premisses", "Manufacturing", 
                 "Agricultural", "Infrastructure"]
             }
         },

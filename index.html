@@ -179,7 +179,7 @@
         /*scroll layout*/
         .scroll-layout{
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 250px minmax(0, 1fr);
             align-items: start;
             max-width: 1400px;
             margin: 0 auto;
@@ -221,6 +221,7 @@
             font-size: 14px;
             line-height: 1.65;
             color: var(--text-body);
+            text-align: justify;
         }
         .left-body strong{
             color: var(--text-dark);
@@ -247,6 +248,8 @@
 
         /*right scrolling panel*/
         .panel-right {
+            width: 100%;
+            min-width: 0;
             padding: 40px 0 80px 32px;
             display: flex;
             flex-direction: column;
@@ -268,9 +271,15 @@
             padding: 10px;
             overflow: hidden;
             width:100%;
+            max-width: 100%;
+            box-sizing: border-box;
             position: relative;
         }
-        .chart-card > div {width: 100%;}
+
+        .chart-card > div {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;}
 
         .map-card{
             padding: 10px;
@@ -380,15 +389,18 @@
         }
 
         .chart-insight{
-            margin: 12px 18px 14px;
-            padding: 14px 16px;
-            background: #f8fafc;
+            margin: 12px 0 0 0;
+            padding: 10px 16px;
+            background: #fff4f0;
             border-left: 4px solid var(--red);
             border-radius: 8px;
+            font-family: var(--font-body);
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .chart-insight-title{
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -397,17 +409,78 @@
         }
 
         .chart-insight p{
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.65;
             color: var(--text-body);
             margin: 0;
         }
 
+        .insight-grid{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px
+        }
+
+        .insight-grid p{
+            font-size: 14px;
+            line-height: 1.65;
+            color: var(--text-body);
+            margin: 0;
+            text-align: justify;
+        }
+
         .chart-footnote{
             margin-top: 8px;
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-muted);
             line-height: 1.5;
+        }
+
+        .chart-top-note{
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 0 12px 0;
+            padding: 10px 16px;
+            background: #fff4f0;
+            border-left: 4px solid #b03022;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            color: var(--text-body);
+        }
+
+        .chart-top-note p{
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-body);
+            margin: 0;
+            text-align: justify;
+        }
+
+        .note-kicker{
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 6px;
+        }
+
+        .chart-card .vega-embed,
+        .chart-card .vega-embed > div,
+        .chart-card .vega-embed canvas,
+        .chart-card .vega-embed svg{
+            max-width: 100%;
+        }
+
+        #vis-heatmap,
+        #vis-rainfall,
+        #vis-map,
+        #vis-lollipop-donut,
+        #vis-stacked,
+        #vis-combined{
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
         }
 
         #vis-map {width: 100%;}
@@ -494,7 +567,7 @@
         <div class="sec-num">01</div>
         <div class="sec-text">
             <span class="sec-overline">Section One</span>
-            <span class="sec-title">Where the Damage Flows</span>
+            <span class="sec-title">Where the Damage Concentrates</span>
         </div>
         </div>
         <hr class="sec-line"/>
@@ -502,11 +575,20 @@
 
     <div class="scroll-layout">
         <aside class="panel-left">
-            <span class="left-overline">Flood Loss Flow</span>
-            <h2 class="left-title">From flooded states to damaged sectors</h2>
+            <span class="left-overline">Flood Loss Structure</span>
+            <h2 class="left-title">Behind Every Flooded State, The Damage Pattern Is Different</h2>
             <p class="left-body">
-                Malaysia's rainfall .........
+                Flood losses in Malaysia are not only measured by how much money is lost,
+                but also by where the damage appears. Some states face heavier losses in
+                homes and infrastructure while others show stronger impacts in agriculture,
+                vehicles, businesses or manufacturing.
             </p>
+            <p class="left-body">
+                This section breaks down the structure of flood damage from three angles:
+                where state-sector losses are concentrated, which damage category dominates
+                each state and which sector takes the largest share nationally.
+            </p>
+
             <div class="source-block">
                 <strong>Data Source</strong><br/>
                 Ministry of Economy Department of Statistics Malaysia<br/>
@@ -515,11 +597,35 @@
             </div>
         </aside>
 
+        <!--1.1 heatmap-->
         <div class="panel-right">
             <div class="fade-in">
-                <div class="chart-label">1.1 State-to-Sector Flood Loss Flow</div>
+                <div class="chart-label">1.1 State x Sector Loss Matrix</div>
                 <div class="chart-card">
-                    <div id="vis-sankey"></div>
+                    <div class="chart-top-note">
+                        <div class="note-kicker">Reading the Damage Pattern</div>
+                        Darker red cells show larger flood losses. Compare each row to see which sector 
+                        affects a state most and compare each column to see where a sector cause the greatest damage.
+                    </div>
+
+                    <div id="vis-heatmap"></div>
+
+                    <div class="chart-insight two-col-insight">
+                        <div class="chart-insight-title">manufacturing loss highly concentrated</div>
+                        
+                        <div class="insight-grid">
+                        <p>
+                        <strong>Kelantan</strong> carried <strong>93.8%</strong> of manufacturing flood loss in <strong>2024</strong>, 
+                        while <strong>Terengganu</strong> carried <strong>100%</strong> in <strong>2025.</strong>
+                        </p>
+
+                        <p>
+                            As Kelantan and Terengganu sit along Malaysia's <strong>east coast flood belt</strong> where Northeast Monsson flodding often causes severe river overflow.
+                        <br>
+                            This makes manufacturing sites, transport routes and local supply chains more exposed when floodwaters spread beyond residential areas.
+                        </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -679,14 +785,18 @@
                 <div class="chart-card">
                     <div id="vis-combined"></div>
 
-                    <div class="chart-insight">
+                    <div class="chart-insight two-col-insight">
                         <div class="chart-insight-title">Reading the Shift</div>
-                        <p id="combined-insight-text">
-                            · Select a state to see which agricultural category changed the most between 2024 and 2025 ·
-                        </p>
-                        <div class="chart-footnote">
-                            The dashed zero line in "How Loss Shifted" marks no change from 2024 to 2025
-                            Bars above the line indicate higher losses in 2025; bars below the line indicate reduced losses
+
+                        <div class="insight-grid">
+                            <p id="combined-insight-text">
+                                · Select a state to see which agricultural category changed the most between 2024 and 2025 ·
+                            </p>
+
+                            <p class="chart-footnote">
+                                The dashed zero line in <strong>How Loss Shifted</strong> marks no change from 2024 to 2025.
+                                Bars above the line indicate higher losses, while bars below the line indicate reduced losses.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -721,7 +831,7 @@
         let combinedView = null;
         let lollipopDonutView = null;
         let stackedBarView = null;
-        let sankeyView = null;
+        let heatmapView = null;
 
         const agriCategories = [
             "Paddy",
@@ -772,10 +882,15 @@
 
             target.innerHTML = `
                 In <strong>${state}</strong>, the largest 2024 agricultural loss came from 
-                <strong>${topLoss.category}</strong>. From 2024 to 2025, the biggest shift was 
-                <strong>${largestShift.category}</strong>, which ${direction} by 
+                <strong>${topLoss.category}</strong>. 
+                <br>
+                From 2024 to 2025, the biggest shift was 
+                <strong>${largestShift.category}</strong>, 
+                <br>
+                which ${direction} by 
                 <strong>RM ${formatRM(largestShift.change)}'000</strong>. 
-                This means its 2025 loss was ${directionMeaning} than the previous year.
+                <br>
+                This means its 2025 loss was <strong>${directionMeaning}</strong> than the previous year.
             `;
         }
 
@@ -784,8 +899,8 @@
             updateCombinedInsight("Kelantan");
         });
 
-        vegaEmbed('#vis-sankey', 'flood_loss_sankey.vg.json', {actions:false})
-        .then(result => {sankeyView = result.view;});
+        vegaEmbed('#vis-heatmap', 'flood_loss_heatmap.vg.json', {actions:false})
+        .then(result => {heatmapView = result.view;});
 
         vegaEmbed('#vis-rainfall', 'rainfall_overview_detail.vg.json', {actions:false})
         .then(result => console.log("Rainfall chart rendered successfully"))
@@ -894,9 +1009,9 @@
         })
         .catch(console.error);
 
-        vegaEmbed('#vis-combined', 'flood_loss_agricultural_grouped_slope_chart.vg.json', {actions:false})
+        vegaEmbed('#vis-combined', 'flood_loss_agricultural_grouped_waterfall_chart.vg.json', {actions:false})
         .then(result => {
-            console.log("Combined grouped bar and slope chart rendered successfully");
+            console.log("Combined grouped bar and waterfall chart rendered successfully");
             combinedView = result.view;
         })
         .catch(console.error);

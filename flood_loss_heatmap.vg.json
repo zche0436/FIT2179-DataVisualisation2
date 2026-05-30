@@ -1,0 +1,213 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+        "text": "Where each Sector Hurts Most",
+        "font": "Playfair Display",
+        "fontStyle": "normal",
+        "fontSize": 20,
+        "anchor": "start",
+        "color":"#0a2343"
+    },
+    "width": "container",
+    "autosize":{
+        "type": "fit-x",
+        "contains": "padding"
+    },
+    "height": {"step": 28},
+    "data":{"url": "cleaned_floodloss_all.csv"},
+    "params": [
+        {
+            "name": "year_select",
+            "value":2024,
+            "bind":{
+                "input": "select",
+                "options": [2024, 2025],
+                "labels": ["2024", "2025"],
+                "name": "Select Year:"
+        }
+        },
+        {
+            "name": "cellHover",
+            "select": {
+                "type": "point",
+                "fields": [
+                "State",
+                "Category"
+                ],
+                "on": "mouseover",
+                "clear": "mouseout"
+            }
+        }
+    ],
+    "transform": [
+        {
+            "filter": "toNumber(datum.Year) == year_select"
+        },
+        {
+            "fold": [
+                "Living Quarters",
+                "Vehicles",
+                "Business Premisses",
+                "Manufacturing",
+                "Agriculture",
+                "Infrastructure"
+            ],
+            "as": [
+                "Category",
+                "Loss"
+            ]
+        },
+        {
+            "calculate": "toNumber(datum.Loss)",
+            "as": "Loss_Num"
+        },
+        {
+            "aggregate": [
+                {
+                    "op": "sum",
+                    "field": "Loss_Num",
+                    "as": "Total_Loss"
+                }
+            ],
+            "groupby": ["State", "Category"]
+        },
+        {
+            "joinaggregate": [
+                {
+                    "op": "sum",
+                    "field": "Total_Loss",
+                    "as": "Sector_Total"
+                }
+            ],
+            "groupby": ["Category"]
+        },
+        {
+            "calculate": "datum.Total_Loss / datum.Sector_Total * 100",
+            "as": "Sector_Share"
+        },
+        {
+            "joinaggregate": [
+                {
+                    "op": "sum",
+                    "field": "Total_Loss",
+                    "as": "State_Total"
+                }
+            ],
+            "groupby": ["State"]
+        }
+    ],
+    "mark": { 
+        "type": "rect",
+        "cornerRadius":3
+    },
+    "encoding": {
+       "x": {
+        "field": "Category",
+        "type": "nominal",
+        "title":null,
+        "sort":[
+            "Living Quarters",
+            "Vehicles",
+            "Business Premisses",
+            "Manufacturing",
+            "Agriculture",
+            "Infrastructure"
+        ],
+        "axis":{
+            "labelFont": "DM Sans",
+            "labelAngle":-30,
+            "labelFontSize":12,
+            "labelColor":"#2c3e50",
+            "labelLimit":140,
+            "domain": false,
+            "ticks": false
+        }
+       },
+        "y":{
+            "field": "State",
+            "type": "nominal",
+            "title":null,
+            "axis":{
+                "labelFont": "DM Sans",
+                "labelFontSize": 12,
+                "labelColor":"#2c3e50",
+                "domain": false,
+                "ticks": false
+            }
+        },
+        "color":{
+            "field":"Sector_Share",
+            "type": "quantitative",
+            "title":"Share of Sector Loss (%)",
+            "scale":{
+                "type": "linear",
+                "range":[
+                    "#fff4f0",
+                    "#fc7d5e",
+                    "#fb6a4a",
+                    "#de2d26",
+                    "#a50f15",
+                    "#67000d"
+                ]
+            },
+            "legend":{
+                "orient": "right",
+                "gradientLength":220,
+                "titleFont":"DM Sans",
+                "titleFontSize":13,
+                "labelFont":"DM Sans",
+                "labelFontSize":12,
+                "labelColor":"#2c3e50",
+                "format":".0f",
+                "tickCount":5
+            }
+        },
+        "opacity":{
+            "condition":{
+                "param": "cellHover",
+                "value": 1
+            },
+            "value": 0.9
+            
+        },
+        "stroke":{
+            "value":"#ffffff"
+        },
+        "strokeWidth":{
+            "value":0.5
+        },
+        "tooltip":[
+            {
+                "field":"State",
+                "type": "nominal",
+                "title": "State"
+            },
+            {
+                "field": "Category",
+                "type": "nominal",
+                "title": "Socio-Economic Category"
+            },
+            {
+                "field": "Total_Loss",
+                "type": "quantitative",
+                "title": "Loss (RM '000)",
+                "format":",.0f"
+            },
+            {
+                "field":"Sector_Share",
+                "type": "quantitative",
+                "title":"Share of Sector Loss (%)",
+                "format":".1f"
+            }
+        ]
+    },
+    "config": {
+        "view": {
+            "stroke": null
+        },
+        "axis": {
+            "grid": false
+        }
+    }
+    
+}
