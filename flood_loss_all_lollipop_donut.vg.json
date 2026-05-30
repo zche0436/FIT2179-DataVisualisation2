@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "What Rivers Leave Behind",
+    "text": "The States that Carry the Cost",
     "font": "Playfair Display",
     "fontStyle": "normal",
     "fontSize": 26,

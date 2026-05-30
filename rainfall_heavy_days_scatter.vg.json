@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 
   "title": {
-    "text": "When Rain Falls in Bursts",
+    "text": "Bursts Before Floods",
     "font": "Playfair Display",
     "fontStyle": "normal",
     "fontWeight":"bold",

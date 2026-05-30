@@ -90,15 +90,35 @@
             color: rgba(255, 255, 255, 0.45);
         }
 
-        /*banner at the top page*/
+        /*hero at the top page*/
         .intro {
+            position: relative;
             background: var(--navy);
-            padding: 64px 40px 80px;
+            padding: 58px 40px 52px;
+            overflow: hidden;
+            color: var(--white);
         }
+
         .intro-inner {
-            max-width: 860px;
+            position: relative;
+            z-index: 2;
+            max-width: 1360px;
+            margin: 0 auto;
         }
-        .intro-overline{
+
+        /* two column hero */
+        .hero-two-col {
+            display: grid;
+            grid-template-columns: minmax(480px, 0.95fr) minmax(480px, 1.05fr);
+            align-items: center;
+            gap: 42px;
+        }
+
+        .hero-copy {
+            max-width: 760px;
+        }
+
+        .intro-overline {
             font-size: 10.5px;
             font-weight: 600;
             letter-spacing: 3.5px;
@@ -106,22 +126,205 @@
             color: var(--steel-lt);
             margin-bottom: 18px;
         }
-        .intro-title{
+
+        .intro-title {
             font-family: var(--font-disp);
-            font-size: clamp(30px, 4vw, 54px);
+            font-size: clamp(36px, 4vw, 62px);
             font-weight: 900;
             color: var(--white);
             line-height: 1.1;
             margin-bottom: 20px;
         }
-        .intro-title em{font-style: italic; color: var(--red-lt);}
-        .intro-body {
+
+        .intro-title em {
+            font-style: italic;
+            color: var(--red-lt);
+        }
+
+        .intro-subtitle {
             font-size: 14.5px;
             font-weight: 300;
-            color: rgba(255,255,255,0.6);
-            max-width: 600px;
+            color: rgba(255,255,255,0.65);
+            max-width: 680px;
             line-height: 1.75;
-            margin-bottom: 36px;
+            margin-bottom: 0;
+        }
+
+        /* rain animation */
+        .rain-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.11;
+            background-image:
+                repeating-linear-gradient(
+                    105deg,
+                    transparent 0px,
+                    transparent 42px,
+                    rgba(214, 232, 244, 0.45) 44px,
+                    transparent 47px
+                );
+            background-size: 260px 260px;
+            animation: rainMove 11s linear infinite;
+        }
+
+        @keyframes rainMove {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: -260px 520px;
+            }
+        }
+
+        /* right-side statistic cards */
+        .hero-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(210px, 1fr));
+            gap: 16px;
+            perspective: 1000px;
+        }
+
+        .hero-stat-card {
+            position: relative;
+            min-height: 150px;
+            padding: 18px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.09);
+            background: rgba(255,255,255,0.055);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            overflow: hidden;
+            transform-style: preserve-3d;
+            animation: floatCard 6s ease-in-out infinite;
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+
+        .hero-stat-card:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .hero-stat-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .hero-stat-card:nth-child(4) {
+            animation-delay: 0.9s;
+        }
+
+        .hero-stat-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                120deg,
+                transparent 0%,
+                rgba(255,255,255,0.11) 45%,
+                transparent 70%
+            );
+            transform: translateX(-120%);
+            transition: transform 0.65s ease;
+        }
+
+        .hero-stat-card:hover::after {
+            transform: translateX(120%);
+        }
+
+        .hero-stat-card:hover {
+            border-color: rgba(224,90,74,0.45);
+            background: rgba(255,255,255,0.085);
+        }
+
+        .featured-stat {
+            border-color: rgba(224,90,74,0.38);
+            background: rgba(176,48,34,0.18);
+        }
+
+        .stat-label {
+            position: relative;
+            z-index: 2;
+            margin: 0 0 8px;
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--steel-lt);
+        }
+
+        .hero-stat-card h2 {
+            position: relative;
+            z-index: 2;
+            margin: 0;
+            font-family: var(--font-disp);
+            font-size: clamp(28px, 3vw, 42px);
+            font-weight: 800;
+            line-height: 1;
+            color: var(--white);
+        }
+
+        .currency {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.72);
+        }
+
+        .stat-unit {
+            font-family: var(--font-body);
+            font-size: 12px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.65);
+        }
+
+        .stat-note {
+            position: relative;
+            z-index: 2;
+            margin: 9px 0 0;
+            font-size: 11.5px;
+            line-height: 1.45;
+            color: rgba(255,255,255,0.55);
+        }
+
+        .hero-source-note {
+            margin-top: 24px;
+            max-width: 700px;
+            font-size: 11px;
+            line-height: 1.55;
+            color: rgba(255,255,255,0.38);
+        }
+
+        @keyframes floatCard {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* responsive */
+        @media (max-width: 1050px) {
+            .hero-two-col {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+
+            .hero-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .intro {
+                padding: 48px 24px 44px;
+            }
+
+            .hero-stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stat-card {
+                min-height: auto;
+            }
         }
 
         /*section separator*/
@@ -250,7 +453,7 @@
         .panel-right {
             width: 100%;
             min-width: 0;
-            padding: 40px 0 80px 32px;
+            padding: 40px 0 40px 40px;
             display: flex;
             flex-direction: column;
             gap: 40px;
@@ -288,7 +491,7 @@
         /*footer*/
         .footer{
             background: var(--navy);
-            padding: 44px 40px;
+            padding: 20px 15px;
             margin-top: 72px;
         }
         .footer-inner{
@@ -296,7 +499,7 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 28px;
+            gap: 15px;
         }
         .footer-col h4{
             font-size: 10px;
@@ -304,7 +507,7 @@
             letter-spacing: 2.5px;
             text-transform: uppercase;
             color: var(--steel-lt);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .footer-col p, .footer-col a{
             font-size: 12px;
@@ -318,7 +521,7 @@
         }
         .footer-bottom{
             max-width: 1180px;
-            margin: 24px auto 0;
+            margin: 15px auto 0;
             padding-top: 18px;
             border-top: 1px solid rgba(255,255,255,0.07);
             font-size: 11px;
@@ -593,16 +796,70 @@
 
     <!--intro-->
     <header class="intro">
-        <div class="intro-inner">
-            <p class="intro-overline">Economic Impact of Monsoon Flooding</p>
-            <h1 class="intro-title">
-                When the Rain Doesn't Stop,<br/><em>the Losses Don't Either</em>
-            </h1>
-            <p class="intro-body">
-                Each monsoon season, Malaysia faces cascading economic damage. 
-                This report traces five years of rainfall intensity and 
-                the financial toll it extracts from states across the peninsula and east Malaysia. 
-            </p>
+        <div class="rain-layer"></div>
+
+        <div class="intro-inner hero-two-col">
+
+            <div class="hero-copy">
+                <p class="intro-overline">Economic Impact of Monsoon Flooding</p>
+
+                <h1 class="intro-title">
+                    When the Rain Doesn't Stop,<br />
+                    <em>the Losses Don't Either</em>
+                </h1>
+
+                <p class="intro-subtitle">
+                    Malaysia’s monsoon floods create repeated economic shocks across homes,
+                    agriculture, infrastructure, vehicles, businesses, and manufacturing.
+                </p>
+
+                <p class="hero-source-note">
+                    Source: Climate Change Knowledge Portal & Ministry of Economy Department of Statistics Malaysia
+                    · Flood loss values are reported in RM '000 and converted to RM million / billion ·
+                </p>
+            </div>
+
+            <div class="hero-stats-grid">
+
+                <div class="hero-stat-card tilt-card">
+                    <p class="stat-label">Peak Monthly Rainfall</p>
+                    <h2>
+                        <span class="count-up" data-target="426.7" data-decimal="1">0</span>
+                        <span class="stat-unit">mm</span>
+                    </h2>
+                    <p class="stat-note">Highest recorded in November 2024.</p>
+                </div>
+
+                <div class="hero-stat-card tilt-card">
+                    <p class="stat-label">Heavy-Rain Days</p>
+                    <h2>
+                        <span class="count-up" data-target="5.76" data-decimal="2">0</span>
+                        <span class="stat-unit">days</span>
+                    </h2>
+                    <p class="stat-note">Maximum monthly days above 20mm rainfall.</p>
+                </div>
+
+                <div class="hero-stat-card tilt-card featured-stat">
+                    <p class="stat-label">Total Flood Loss</p>
+                    <h2>
+                        <span class="currency">RM</span>
+                        <span class="count-up" data-target="1.57" data-decimal="2">0</span>
+                        <span class="stat-unit">bil</span>
+                    </h2>
+                    <p class="stat-note">Total recorded loss in the flood loss dataset.</p>
+                </div>
+
+                <div class="hero-stat-card tilt-card">
+                    <p class="stat-label">Largest State Loss</p>
+                    <h2>
+                        <span class="currency">RM</span>
+                        <span class="count-up" data-target="263" data-decimal="0">0</span>
+                        <span class="stat-unit">mil</span>
+                    </h2>
+                    <p class="stat-note">Kelantan recorded the highest loss in 2024.</p>
+                </div>
+
+            </div>
         </div>
     </header>
 
@@ -620,8 +877,8 @@
 
     <div class="scroll-layout">
         <aside class="panel-left">
-            <span class="left-overline">Rainfall Overview</span>
-            <h2 class="left-title">When the Monsoon Builds</h2>
+            <span class="left-overline">Rainfall Prerssure</span>
+            <h2 class="left-title">Rainfall Builds Before the Losses Appear</h2>
             <p class="left-body">
                 Rainfall does not build evenly across the year. The five-year timeline first
                 shows when monthly rainfall becomes heaviest, while the seasonal profile
@@ -645,12 +902,12 @@
         <!--1.1 overview detail-->
         <div class="panel-right">
             <div class="fade-in">
-                <div class="chart-label">1.1 Monthly Precipitation & Heavy Rain Days</div>
+                <div class="chart-label">1.1 When Rainfall Pressure Peaks</div>
                 <div class="chart-card">
                     <div id="vis-rainfall"></div>
 
                     <div class="chart-insight">
-                        <div class="chart-insight-title">The storm weight arrives late</div>
+                        <div class="chart-insight-title">The heaviest rain arrives late</div>
 
                         <p>
                             Rainfall rises most sharply in <strong>late 2024</strong>, showing how the Northeast Monsoon can turn the end of the year into the main pressure point for flood risk.
@@ -661,7 +918,7 @@
 
             <!--1.2 seasonal cycle line chart-->
             <div class="fade-in">
-                <div class="chart-label">1.2 Average Monthly Rainfall Profile</div>
+                <div class="chart-label">1.2 The Seasonal Shape of Rainfall</div>
 
                 <div class="chart-card">
                     <div id="vis-monthly-rainfall"></div>
@@ -732,7 +989,7 @@
     <div class="scroll-layout">
         <aside class="panel-left">
             <span class="left-overline">Flood Loss Structure</span>
-            <h2 class="left-title">Behind Every Flooded State, The Damage Pattern Is Different</h2>
+            <h2 class="left-title">Behind Every Flooded State, the Damage Pattern Is Different</h2>
             <p class="left-body">
                 Flood losses are not spread evenly across Malaysia. Some damage gathers around
                 specific <strong>states</strong>, some is concentrated inside one main
@@ -756,7 +1013,7 @@
                     <div class="chart-top-note">
                         <div class="note-kicker">Reading the Damage Pattern</div>
                         Darker red cells show larger flood losses. Compare each row to see which sector 
-                        affects a state most and compare each column to see where a sector cause the greatest damage.
+                        affects a state most and compare each column to see where a sector causes the greatest damage.
                     </div>
 
                     <div id="vis-heatmap"></div>
@@ -771,7 +1028,7 @@
                         </p>
 
                         <p>
-                            As Kelantan and Terengganu sit along Malaysia's <strong>east coast flood belt</strong> where Northeast Monsson flodding often causes severe river overflow.
+                            As Kelantan and Terengganu sit along Malaysia's <strong>east coast flood belt</strong> where Northeast Monsoon flooding often causes severe river overflow.
                         <br>
                             This makes manufacturing sites, transport routes and local supply chains more exposed when floodwaters spread beyond residential areas.
                         </p>
@@ -800,7 +1057,7 @@
 
                         <div class="insight-grid">
                             <p>
-                                The repeated house symbol shows that the top-loss districts are mainly doominated by <strong>Living Quarters</strong> damage.
+                                The repeated house symbol shows that the top-loss districts are mainly dominated by <strong>Living Quarters</strong> damage.
                                 A district can record a large loss value but still have a lower share
                                 if the state's flood damage is spread across many districts.
                             </p>
@@ -865,11 +1122,11 @@
 
     <div class="scroll-layout">
         <aside class="panel-left">
-            <span class="left-overline">All Category Losses</span>
-            <h2 class="left-title">Some states carry more of the flood burden</h2>
+            <span class="left-overline">State-Level Burden</span>
+            <h2 class="left-title">Some States Carry More of the Flood Burden</h2>
             <p class="left-body">
                 Flood damage concentrates in specific parts of Malaysia rather than spreading evenly across the country. 
-                In 2024, the top three states account for more than two-thrids of national flood loss.
+                In 2024, the top three states account for more than two-thirds of national flood loss.
                 Selecting a state reveals whether the damage is driven mainly by homes, infrastructure, agriculture, vehicles, business premises or manufacturing. 
             </p>
             <div class="source-block">
@@ -914,7 +1171,7 @@
             <h2 class="left-title">The Harvest Lost to Floodwaters</h2>
             <p class="left-body">
                 Agricultural flood loss is first compared across all states, then narrowed into a selected-state view. 
-                The stacked chart shows how each state’s agricultural damage is divided by category, while the detail chart 
+                The stacked chart shows how each state's agricultural damage is divided by category, while the detail chart 
                 reveals the actual loss value and whether each category rose or fell from 2024 to 2025.
             </p>
             <div class="source-block">
@@ -1006,6 +1263,7 @@
     
 
     <script>
+
         let combinedView = null;
         let lollipopDonutView = null;
         let stackedBarView = null;
@@ -1246,6 +1504,76 @@
         sections.forEach(s => {
             const el = document.getElementById(s.id);
             if (el) spy.observe(el);
+        });
+    </script>
+
+    <script>
+        const countUpElements = document.querySelectorAll(".count-up");
+
+        function animateCountUp(el) {
+            const target = parseFloat(el.dataset.target);
+            const decimals = parseInt(el.dataset.decimal || "0");
+            const duration = 1600;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                const currentValue = target * easedProgress;
+
+                el.textContent = currentValue.toFixed(decimals);
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    el.textContent = target.toFixed(decimals);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        const heroStatsGrid = document.querySelector(".hero-stats-grid");
+
+        if (heroStatsGrid) {
+            const heroObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        countUpElements.forEach(el => animateCountUp(el));
+                        observer.disconnect();
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            heroObserver.observe(heroStatsGrid);
+        }
+
+        const tiltCards = document.querySelectorAll(".tilt-card");
+
+        tiltCards.forEach(card => {
+            card.addEventListener("mousemove", e => {
+                const rect = card.getBoundingClientRect();
+
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const rotateX = ((y / rect.height) - 0.5) * -5;
+                const rotateY = ((x / rect.width) - 0.5) * 5;
+
+                card.style.transform = `
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                    translateY(-5px)
+                `;
+            });
+
+            card.addEventListener("mouseleave", () => {
+                card.style.transform = "";
+            });
         });
     </script>
     
