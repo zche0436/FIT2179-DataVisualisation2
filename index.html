@@ -612,7 +612,7 @@
         }
 
         .chart-insight p{
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.65;
             color: var(--text-body);
             margin: 0;
@@ -625,7 +625,7 @@
         }
 
         .insight-grid p{
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.65;
             color: var(--text-body);
             margin: 0;
@@ -657,7 +657,7 @@
         }
 
         .chart-top-note p{
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.65;
             color: var(--text-body);
             margin: 0;
@@ -1142,12 +1142,51 @@
                 <div class="chart-label">3.1 State Share of National Flood Loss (%)</div>
                 <div class="chart-card map-card">
                     <div id="vis-map"></div>
+
+                    <div class="chart-insight two-col-insight">
+                        <div class="chart-insight-title">Loss is concentrated in a few states</div>
+
+                        <div class="insight-grid">
+                            <p>
+                                In <strong>2024</strong>, flood loss is strongly concentrated in
+                                <strong>Kelantan</strong>, <strong>Kedah</strong>, and <strong>Terengganu</strong>.
+                                Together, these three states account for about <strong>68.4%</strong> of the
+                                national recorded flood loss.
+                            </p>
+
+                            <p>
+                                The map shows that national flood impact is not evenly spread. The darkest states
+                                form the main loss belt, meaning a small number of states carry most of the flood
+                                damage burden.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="fade-in">
                 <div class="chart-label">3.2 Total Loss by State & Category Breakdown</div>
+                
                 <div class="chart-card">
                     <div id="vis-lollipop-donut"></div>
+
+                    <div class="chart-insight two-col-insight">
+                        <div class="chart-insight-title">High totals hide different damage mixes</div>
+
+                        <div class="insight-grid">
+                            <p>
+                                In <strong>2024</strong>, <strong>Kelantan</strong> records the highest total loss,
+                                but its damage is not from one category only. Living quarters, infrastructure,
+                                agriculture, and business premises all contribute to the total.
+                            </p>
+
+                            <p>
+                                The linked donut helps explain why state rankings alone are not enough. For example,
+                                <strong>Kedah</strong> ranks high mainly because of agricultural loss, while
+                                <strong>Terengganu</strong> is driven more by living quarters and infrastructure.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1212,6 +1251,25 @@
                             </path>
                         </svg>
                     </div>
+
+                    <div class="chart-insight two-col-insight">
+                        <div class="chart-insight-title">Paddy loss dominates the agricultural picture</div>
+
+                        <div class="insight-grid">
+                            <p>
+                                In <strong>2024</strong>, agricultural flood loss is dominated by
+                                <strong>Kedah</strong>, where paddy loss makes up most of the state’s agricultural
+                                damage. This makes the 2024 agricultural pattern highly concentrated.
+                            </p>
+
+                            <p>
+                                In <strong>2025</strong>, the pattern becomes more distributed across states such as
+                                <strong>Johor</strong>, <strong>Selangor</strong>, <strong>Kedah</strong>, and
+                                <strong>Kelantan</strong>. Fisheries and crops become more visible, while paddy loss
+                                no longer dominates the chart.
+                            </p>
+                        </div>
+</div>
                 </div>
 
             </div>
