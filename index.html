@@ -329,9 +329,10 @@
 
         /*section separator*/
         .section-sep{
-            max-width: 1400px;
+            width: 100%;
+            max-width: none;
             margin: 0 auto;
-            padding: 0 32px;
+            padding: 0 28px;
             position: sticky;
             top: 52px;
             z-index: 120;
@@ -384,10 +385,10 @@
             display: grid;
             grid-template-columns: 300px minmax(0, 1fr);
             align-items: start;
-            max-width: 1400px;
+            width: 100%;
+            max-width: none;
             margin: 0 auto;
             padding: 0 28px;
-            column-gap: 28px;
         }
 
         /*left panel (non scroll)*/
@@ -454,7 +455,7 @@
         .panel-right {
             width: 100%;
             min-width: 0;
-            padding: 40px 0 24px 28px;
+            padding: 40px 0 40px 28px;
             display: flex;
             flex-direction: column;
             gap: 40px;
@@ -492,16 +493,24 @@
         /*footer*/
         .footer{
             background: var(--navy);
-            padding: 20px 15px;
+            padding: 34px 28px 22px;
             margin-top: 72px;
         }
         .footer-inner{
-            max-width: 1180px;
+            max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
         }
+        .footer-col{
+            padding: 18px 20px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
         .footer-col h4{
             font-size: 10px;
             font-weight: 700;
@@ -517,18 +526,23 @@
             text-decoration: none;
             display: block;
         }
+        .footer-col strong{
+            color: rgba(255,255,255,0.78);
+            font-weight: 600;
+        }
         .footer-col a:hover{
             color: var(--steel-lt);
         }
         .footer-bottom{
-            max-width: 1180px;
-            margin: 15px auto 0;
-            padding-top: 18px;
+            max-width: 1400px;
+            margin: 18px auto 0;
+            padding-top: 16px;
             border-top: 1px solid rgba(255,255,255,0.07);
             font-size: 11px;
             color: rgba(255,255,255,0.35);
             display: flex;
             justify-content: space-between;
+            gap: 16px;
         }
 
         /*scroll animation*/
@@ -878,7 +892,7 @@
 
     <div class="scroll-layout">
         <aside class="panel-left">
-            <span class="left-overline">Rainfall Prerssure</span>
+            <span class="left-overline">Rainfall Pressure</span>
             <h2 class="left-title">Rainfall Builds Before the Losses Appear</h2>
             <p class="left-body">
                 Rainfall does not build evenly across the year. The five-year timeline first
@@ -952,7 +966,7 @@
                     <div id="vis-rainfall-scatter"></div>
 
                     <div class="chart-insight two-col-insight">
-                        <div class="chart-insight-title">Burst raise flood pressure</div>
+                        <div class="chart-insight-title">Repeated Bursts Raise Flood Pressure</div>
 
                         <div class="insight-grid">
                             <p>
@@ -1301,22 +1315,29 @@
     <!--footer-->
     <footer class="footer">
         <div class="footer-inner">
-            <div class="footer-col">
+
+            <div class="footer-col footer-profile">
+                <h4>Metadeta</h4>
+                <p>Author: <strong>Chen Zhe Tein (36633909)</strong></p>
+                <p>Project: <strong>FIT2179 Data Visualisation </strong></p>
+                <p>Topic: <strong>Malaysia Monsoon Flood Impact</strong></p>
+                <p>Last updated: <strong> 31st May 2026</strong></p>
+            </div>
+
+            <div class="footer-col footer-sources">
                 <h4>Data Sources</h4>
                 <a href="https://www.dosm.gov.my/portal-main/release-content/special-report-on-impact-of-floods-in-malaysia2025">
-                    DOSM Report on Impact of Floods 2025</a>
+                    DOSM Special Report on Impact of Floods in Malaysia 2025
+                </a>
                 <a href="https://www.dosm.gov.my/portal-main/release-content/special-report-on-impact-of-floods-in-malaysia-2024">
-                    DOSM Report on Impact of Floods 2024</a>
+                    DOSM Special Report on Impact of Floods in Malaysia 2024
+                </a>
                 <a href="https://climateknowledgeportal.worldbank.org/download-data">
-                    Monthly Precipitation</a>
-
-                <p>Data covers 2020-2024</p> 
+                    World Bank Climate Change Knowledge Portal
+                </a>
+                <p>Rainfall data covers 2020-2024. Flood loss data covers 2024-2025.</p>
             </div>
-        </div>
 
-        <div class="footer-bottom">
-            <span>Chen Zhe Tein (36633909)</span>
-            <span>Last update: 29th May 2026</span>
         </div>
     </footer>
     
