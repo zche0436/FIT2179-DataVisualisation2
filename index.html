@@ -628,6 +628,40 @@
                     </div>
                 </div>
             </div>
+
+            <!--1.2 symbol chart-->
+            <div class="fade-in">
+                <div class="chart-label">1.2 Top-District Damage</div>
+
+                <div class="chart-card">
+                    <div class="chart-top-note">
+                        <div class="note-kicker">Reading the District Cluster</div>
+                        <p>
+                            Larger symbols and positions further right both show stronger district concentration.
+                            Hover to see the actual flood loss value in RM '000.
+                        </p>
+                    </div>
+
+                    <div id="vis-symbol"></div>
+
+                    <div class="chart-insight two-col-insight">
+                        <div class="chart-insight-title">Flood damage can cluster locally</div>
+
+                        <div class="insight-grid">
+                            <p>
+                                The repeated house symbol shows that the top-loss districts are mainly doominated by <strong>Living Quarters</strong> damage.
+                                A district can record a large loss value but still have a lower share
+                                if the state's flood damage is spread across many districts.
+                            </p>
+
+                            <p>
+                                A smaller loss can show a higher percentage when most of the state's
+                                flood damage is concentrated in one district.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -898,6 +932,10 @@
             agriData = vega.read(text, {type: "csv", parse: "auto"});
             updateCombinedInsight("Kelantan");
         });
+
+        vegaEmbed('#vis-symbol', 'flood_loss_symbol_chart.vg.json', {actions:false})
+        .then(result => console.log("Top district symbol chart rendered successfully"))
+        .catch(console.error);
 
         vegaEmbed('#vis-heatmap', 'flood_loss_heatmap.vg.json', {actions:false})
         .then(result => {heatmapView = result.view;});

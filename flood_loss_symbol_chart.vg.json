@@ -1,0 +1,203 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Where Damage Clusters Inside Each State",
+    "font": "Playfair Display",
+    "fontStyle": "normal",
+    "fontSize": 20,
+    "anchor": "start",
+    "color": "#0a2343"
+  },
+
+  "width": "container",
+  "height": {"step": 30},
+
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+
+  "data": {
+    "url": "cleaned_floodloss_top_district_by_state_2024_2025.csv"
+  },
+
+  "params": [
+    {
+      "name": "year_select",
+      "value": 2024,
+      "bind": {
+        "input": "select",
+        "options": [2024, 2025],
+        "labels": ["2024", "2025"],
+        "name": "Select Year:"
+      }
+    }
+  ],
+
+  "transform": [
+    {
+      "filter": "toNumber(datum.Year) == year_select"
+    },
+    {
+      "calculate": "toNumber(datum.Top_District_Share_Percent)",
+      "as": "Top_District_Share"
+    },
+    {
+      "calculate": "toNumber(datum.Top_District_Loss)",
+      "as": "Top_District_Loss_Num"
+    },
+    {
+      "calculate": "toNumber(datum.State_District_Total_Loss)",
+      "as": "State_Total_Loss_Num"
+    },
+    {
+      "calculate": "toNumber(datum.Top_District_Loss_per_1000_LQ)",
+      "as": "Top_District_Loss_per_1000_LQ_Num"
+    },
+    {
+      "calculate": "datum.Top_District_Dominant_Category == 'Living Quarters' ? '🏠' : datum.Top_District_Dominant_Category == 'Vehicles' ? '🚗' : datum.Top_District_Dominant_Category == 'Business Premises' ? '🏢' : datum.Top_District_Dominant_Category == 'Manufacturing' ? '🏭' : '●'",
+      "as": "Category_Icon"
+    }
+  ],
+
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "stroke": "#e05a4a",
+        "strokeDash": [4, 4],
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": {
+          "datum": 50
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dx": 6,
+        "dy": -4,
+        "font": "DM Sans",
+        "fontSize": 11,
+        "fill": "#b03022"
+      },
+      "encoding": {
+        "x": {
+          "datum": 50
+        },
+        "y": {
+          "value": 0
+        },
+        "text": {
+          "value": "50% concentration line"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 24,
+        "baseline": "middle",
+        "align": "center"
+      },
+      "encoding": {
+        "x": {
+          "field": "Top_District_Share",
+          "type": "quantitative",
+          "title": "Top District / State Loss (%)",
+          "scale": {"domain": [0, 100]}
+        },
+        "y": {
+          "field": "State",
+          "type": "nominal",
+          "title": null,
+          "sort": {
+            "field": "State_Total_Loss_Num",
+            "order": "descending"
+          }
+        },
+        "text": {
+          "field": "Category_Icon"
+        },
+        "size": {
+          "field": "Top_District_Share",
+          "type": "quantitative",
+          "scale": {
+            "domain":[0, 100],
+            "range": [18, 46]},
+          "title": "Top District / State Loss (%)",
+          "legend":{
+            "orient": "right",
+            "titleFont":"DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "format": ".0f"
+          }
+        },
+        "tooltip": [
+          {"field": "State", "type": "nominal", "title": "State"},
+          {"field": "Top_District", "type": "nominal", "title": "Top District"},
+          {"field": "Top_District_Dominant_Category", "type": "nominal", "title": "Dominant Category"},
+          {"field": "Top_District_Share", "type": "quantitative", "title": "Share of State Loss (%)", "format": ".1f"},
+          {"field": "Top_District_Loss_Num", "type": "quantitative", "title": "Top District Loss (RM '000)", "format": ",.0f"}
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 26,
+        "font": "DM Sans",
+        "fontSize": 11,
+        "fill": "#2c3e50"
+      },
+      "encoding": {
+        "x": {
+          "field": "Top_District_Share",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0, 100]
+          }
+        },
+        "y": {
+          "field": "State",
+          "type": "nominal",
+          "sort": {
+            "field": "State_Total_Loss_Num",
+            "order": "descending"
+          }
+        },
+        "text": {
+          "field": "Top_District",
+          "type": "nominal"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.Top_District_Share >= 45",
+            "value": 1
+          },
+          "value": 0
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "grid": false
+    }
+  }
+}
