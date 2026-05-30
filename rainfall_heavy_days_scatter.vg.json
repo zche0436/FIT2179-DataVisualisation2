@@ -1,0 +1,222 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "When Rain Falls in Bursts",
+    "font": "Playfair Display",
+    "fontStyle": "normal",
+    "fontWeight":"bold",
+    "fontSize": 26,
+    "anchor": "start",
+    "color": "#0a2343"
+  },
+
+  "width": "container",
+  "height": 360,
+
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+
+  "data": {
+    "url": "cleaned_rainfall_2020_2024.csv"
+  },
+
+  "transform": [
+    {
+      "calculate": "toNumber(datum.pr)",
+      "as": "Rainfall_Num"
+    },
+    {
+      "calculate": "toNumber(datum.r20mm)",
+      "as": "Heavy_Rain_Days_Num"
+    },
+    {
+      "calculate": "toNumber(datum.Month)",
+      "as": "Month_Num"
+    },
+    {
+      "calculate": "datum.Month_Num == 11 || datum.Month_Num == 12 || datum.Month_Num == 1 || datum.Month_Num == 2 ? 'Northeast Monsoon' : 'Other months'",
+      "as": "Season"
+    },
+    {
+      "filter": "isValid(datum.Rainfall_Num) && isValid(datum.Heavy_Rain_Days_Num)"
+    }
+  ],
+
+  "layer": [
+    {
+      "transform": [
+        {
+          "regression": "Heavy_Rain_Days_Num",
+          "on": "Rainfall_Num"
+        }
+      ],
+      "mark": {
+        "type": "line",
+        "stroke": "#0a2343",
+        "strokeWidth": 2.5,
+        "opacity": 0.9
+      },
+      "encoding": {
+        "x": {
+          "field": "Rainfall_Num",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Heavy_Rain_Days_Num",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 140,
+        "stroke": "#ffffff",
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "x": {
+          "field": "Rainfall_Num",
+          "type": "quantitative",
+          "title": "Monthly Rainfall (mm)",
+          "axis": {
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a",
+            "grid": true,
+            "gridColor": "#edf1f5"
+          }
+        },
+        "y": {
+          "field": "Heavy_Rain_Days_Num",
+          "type": "quantitative",
+          "title": "Heavy-Rain Days (>20mm)",
+          "axis": {
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a",
+            "grid": true,
+            "gridColor": "#edf1f5"
+          }
+        },
+        "color": {
+          "field": "Season",
+          "type": "nominal",
+          "title": "Season",
+          "scale": {
+            "domain": ["Northeast Monsoon", "Other months"],
+            "range": ["#b03022", "#2e86ab"]
+          },
+          "legend": {
+            "orient": "right",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50"
+          }
+        },
+        "opacity": {
+          "value": 0.78
+        },
+        "size": {
+          "value": 140
+        },
+        "tooltip": [
+          {
+            "field": "Year",
+            "type": "ordinal",
+            "title": "Year"
+          },
+          {
+            "field": "MonthName",
+            "type": "nominal",
+            "title": "Month"
+          },
+          {
+            "field": "Rainfall_Num",
+            "type": "quantitative",
+            "title": "Monthly Rainfall (mm)",
+            "format": ".1f"
+          },
+          {
+            "field": "Heavy_Rain_Days_Num",
+            "type": "quantitative",
+            "title": "Heavy-Rain Days (>20mm)",
+            "format": ".1f"
+          },
+          {
+            "field": "Season",
+            "type": "nominal",
+            "title": "Season"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.Season == 'Northeast Monsoon'"
+        },
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "Rainfall_Num",
+              "as": "avg_x"
+            },
+            {
+              "op": "mean",
+              "field": "Heavy_Rain_Days_Num",
+              "as": "avg_y"
+            }
+          ]
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "bottom",
+        "dx": 160,
+        "dy": -35,
+        "font": "DM Sans",
+        "fontSize": 11,
+        "fontWeight": 700,
+        "fill": "#b03022"
+      },
+      "encoding": {
+        "x": {
+          "field": "avg_x",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "avg_y",
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "More heavy rain days, Higher rainfall"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "grid": false
+    }
+  }
+}

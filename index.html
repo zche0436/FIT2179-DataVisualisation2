@@ -391,8 +391,8 @@
         .chart-insight{
             margin: 12px 0 0 0;
             padding: 10px 16px;
-            background: #fff4f0;
-            border-left: 4px solid var(--red);
+            background: var(--grey-bg);
+            border-left: 4px solid var(--navy);
             border-radius: 8px;
             font-family: var(--font-body);
             width: 100%;
@@ -429,6 +429,11 @@
             text-align: justify;
         }
 
+        .chart-insight .insight-grid p strong{
+            color: var(--red);
+            font-weight: 700;
+        }
+
         .chart-footnote{
             margin-top: 8px;
             font-size: 12px;
@@ -461,7 +466,7 @@
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--red);
+            color: var(--text-muted);
             margin-bottom: 6px;
         }
 
@@ -511,6 +516,7 @@
         #vis-heatmap,
         #vis-rainfall,
         #vis-monthly-rainfall,
+        #vis-rainfall-scatter,
         #vis-map,
         #vis-lollipop-donut,
         #vis-stacked,
@@ -617,11 +623,17 @@
             <span class="left-overline">Rainfall Overview</span>
             <h2 class="left-title">When the Monsoon Builds</h2>
             <p class="left-body">
-                Rain does not arrive evenly across the year. Each Northeast Monsoon season,
-                Malaysia enters a period of sustained pressure with heavier rainfall and more
-                frequent intense downpours. The late-2024 peak marks the strongest monthly surge
-                in the five-year record, revealing how seasonal monsoon cycles shape the country's flood risk.
+                Rainfall does not build evenly across the year. The five-year timeline first
+                shows when monthly rainfall becomes heaviest, while the seasonal profile
+                reveals which months usually carry the strongest rainfall load.
             </p>
+
+            <p class="left-body">
+                This section then links rainfall totals with <strong>heavy-rain days</strong>,
+                showing that flood risk grows not only from how much rain falls, but also
+                from how often rain arrives in intense bursts.
+            </p>
+            
             <div class="source-block">
                 <strong>Data Source</strong><br/>
                 World Bank Group · Climate Change Knowledge Portal<br/>
@@ -630,11 +642,20 @@
             </div>
         </aside>
 
+        <!--1.1 overview detail-->
         <div class="panel-right">
             <div class="fade-in">
                 <div class="chart-label">1.1 Monthly Precipitation & Heavy Rain Days</div>
                 <div class="chart-card">
                     <div id="vis-rainfall"></div>
+
+                    <div class="chart-insight">
+                        <div class="chart-insight-title">The storm weight arrives late</div>
+
+                        <p>
+                            Rainfall rises most sharply in <strong>late 2024</strong>, showing how the Northeast Monsoon can turn the end of the year into the main pressure point for flood risk.
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -659,6 +680,32 @@
                                 The peak continues into <strong>December</strong>, showing that flood risk does not
                                 rise from one isolated wet month, but from a late-year build-up of repeated
                                 heavy rainfall.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--1.3 scatter plot-->
+            <div class="fade-in">
+                <div class="chart-label">1.3 Rainfall Burst Pattern</div>
+
+                <div class="chart-card">
+                    <div id="vis-rainfall-scatter"></div>
+
+                    <div class="chart-insight two-col-insight">
+                        <div class="chart-insight-title">Burst raise flood pressure</div>
+
+                        <div class="insight-grid">
+                            <p>
+                                The upward trend shows that months with higher rainfall totals usually also record
+                                <strong>more heavy-rain days</strong>. Flood pressure builds when rain arrives
+                                repeatedly in intense bursts, not only from one large monthly total.
+                            </p>
+
+                            <p>
+                                Monsoon months appear more often on the higher-rainfall side of the chart,
+                                linking the seasonal rainfall surge to stronger short-term flood intensity.
                             </p>
                         </div>
                     </div>
@@ -1036,6 +1083,12 @@
 
         vegaEmbed('#vis-symbol', 'flood_loss_symbol_chart.vg.json', {actions:false})
         .then(result => console.log("Top district symbol chart rendered successfully"))
+        .catch(console.error);
+
+        vegaEmbed('#vis-rainfall-scatter', 'rainfall_heavy_days_scatter.vg.json', {
+            actions: false
+        })
+        .then(result => console.log("Rainfall scatter plot rendered successfully"))
         .catch(console.error);
 
         vegaEmbed('#vis-exposure-radial', 'flood_loss_exposure_radial.vg.json', {actions:false})

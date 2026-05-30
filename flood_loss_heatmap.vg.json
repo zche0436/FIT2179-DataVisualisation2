@@ -4,7 +4,8 @@
         "text": "Where each Sector Hurts Most",
         "font": "Playfair Display",
         "fontStyle": "normal",
-        "fontSize": 20,
+        "fontSize": 26,
+        "fontWeight": "bold",
         "anchor": "start",
         "color":"#0a2343"
     },
