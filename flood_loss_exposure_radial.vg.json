@@ -1,0 +1,323 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Flood Loss Pressure Beyond Raw Totals",
+    "font": "Playfair Display",
+    "fontStyle": "normal",
+    "fontSize": 20,
+    "anchor": "start",
+    "color": "#0a2343"
+  },
+
+  "data": {
+    "url": "cleaned_floodloss_state_exposure_2024_2025.csv"
+  },
+
+  "transform": [
+    {
+      "calculate": "toNumber(datum['Total Loss'])",
+      "as": "Total_Loss_Num"
+    },
+    {
+      "calculate": "toNumber(datum.Living_Quarters_Count)",
+      "as": "Living_Quarters_Num"
+    },
+    {
+      "calculate": "toNumber(datum.Loss_per_1000_Living_Quarters)",
+      "as": "Loss_per_1000_LQ"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank_in_year"
+        }
+      ],
+      "groupby": ["Year"],
+      "sort": [
+        {
+          "field": "Loss_per_1000_LQ",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rank_in_year <= 10"
+    }
+  ],
+
+  "hconcat": [
+    {
+
+      "width": 450,
+      "height": 450,
+
+      "transform": [
+        {
+          "filter": "toNumber(datum.Year) == 2024"
+        }
+      ],
+
+      "layer": [
+        {
+          "mark": {
+            "type": "arc",
+            "innerRadius":60,
+            "stroke": "#ffffff",
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "theta": {
+              "field": "State",
+              "type": "nominal",
+              "sort": {
+                "field": "Loss_per_1000_LQ",
+                "order": "descending"
+              },
+              "stack": true
+            },
+            "radius": {
+              "field": "Loss_per_1000_LQ",
+              "type": "quantitative",
+              "scale": {
+                "type": "sqrt",
+                "rangeMin": 100,
+                "rangeMax": 200
+              }
+            },
+            "color": {
+              "field": "Loss_per_1000_LQ",
+              "type": "quantitative",
+              "title": "Loss per 1,000 LQ",
+              "scale": {
+                "range": [
+                  "#fff4f0",
+                  "#fdd0c0",
+                  "#fca082",
+                  "#fb6a4a",
+                  "#de2d26",
+                  "#67000d"
+                ]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {
+                "field": "State",
+                "type": "nominal",
+                "title": "State"
+              },
+              {
+                "field": "Loss_per_1000_LQ",
+                "type": "quantitative",
+                "title": "Loss per 1,000 Living Quarters",
+                "format": ",.1f"
+              },
+              {
+                "field": "Total_Loss_Num",
+                "type": "quantitative",
+                "title": "Total Loss (RM '000)",
+                "format": ",.0f"
+              },
+              {
+                "field": "Living_Quarters_Num",
+                "type": "quantitative",
+                "title": "Living Quarters Count",
+                "format": ",.0f"
+              }
+            ]
+          }
+        },
+        {
+            "data":{
+                "values":[{"YearLabel": "2024"}]
+            },
+            "mark":{
+                "type": "text",
+                "align":"center",
+                "baseline":"middle",
+                "font":"DM Sans",
+                "fontSize":22,
+                "fontWeight":700,
+                "fill":"#67000d"
+            },
+            "encoding": {
+                "text":{
+                    "field":"YearLabel",
+                    "type": "nominal"
+                }
+            }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "radius": 220,
+            "font": "DM Sans",
+            "fontSize": 10,
+            "fontWeight": 600,
+            "fill": "#2c3e50"
+          },
+          "encoding": {
+            "theta": {
+              "field": "State",
+              "type": "nominal",
+              "sort": {
+                "field": "Loss_per_1000_LQ",
+                "order": "descending"
+              },
+              "stack": true
+            },
+            "text": {
+              "field": "State",
+              "type": "nominal"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+
+      "width": 450,
+      "height": 450,
+
+      "transform": [
+        {
+          "filter": "toNumber(datum.Year) == 2025"
+        }
+      ],
+
+      "layer": [
+        {
+          "mark": {
+            "type": "arc",
+            "innerRadius": 60,
+            "stroke": "#ffffff",
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "theta": {
+              "field": "State",
+              "type": "nominal",
+              "sort": {
+                "field": "Loss_per_1000_LQ",
+                "order": "descending"
+              },
+              "stack": true
+            },
+            "radius": {
+              "field": "Loss_per_1000_LQ",
+              "type": "quantitative",
+              "scale": {
+                "type": "sqrt",
+                "rangeMin": 100,
+                "rangeMax": 200
+              }
+            },
+            "color": {
+              "field": "Loss_per_1000_LQ",
+              "type": "quantitative",
+              "title": "Loss per 1,000 LQ",
+              "scale": {
+                "range": [
+                  "#fff4f0",
+                  "#fdd0c0",
+                  "#fca082",
+                  "#fb6a4a",
+                  "#de2d26",
+                  "#67000d"
+                ]
+              },
+              "legend": null
+            },
+            "tooltip": [
+              {
+                "field": "State",
+                "type": "nominal",
+                "title": "State"
+              },
+              {
+                "field": "Loss_per_1000_LQ",
+                "type": "quantitative",
+                "title": "Loss per 1,000 Living Quarters",
+                "format": ",.1f"
+              },
+              {
+                "field": "Total_Loss_Num",
+                "type": "quantitative",
+                "title": "Total Loss (RM '000)",
+                "format": ",.0f"
+              },
+              {
+                "field": "Living_Quarters_Num",
+                "type": "quantitative",
+                "title": "Living Quarters Count",
+                "format": ",.0f"
+              }
+            ]
+          }
+        },
+        {
+            "data":{
+                "values":[{"YearLabel": "2025"}]
+            },
+            "mark":{
+                "type": "text",
+                "align":"center",
+                "baseline":"middle",
+                "font":"DM Sans",
+                "fontSize":22,
+                "fontWeight":700,
+                "fill":"#67000d"
+            },
+            "encoding": {
+                "text":{
+                    "field":"YearLabel",
+                    "type": "nominal"
+                }
+            }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "radius": 220,
+            "font": "DM Sans",
+            "fontSize": 10,
+            "fontWeight": 600,
+            "fill": "#2c3e50"
+          },
+          "encoding": {
+            "theta": {
+              "field": "State",
+              "type": "nominal",
+              "sort": {
+                "field": "Loss_per_1000_LQ",
+                "order": "descending"
+              },
+              "stack": true
+            },
+            "text": {
+              "field": "State",
+              "type": "nominal"
+            }
+          }
+        }
+      ]
+    }
+  ],
+
+  "spacing": 90,
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "grid": false,
+      "domain": false,
+      "ticks": false,
+      "labels": false
+    }
+  }
+}

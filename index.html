@@ -179,7 +179,7 @@
         /*scroll layout*/
         .scroll-layout{
             display: grid;
-            grid-template-columns: 250px minmax(0, 1fr);
+            grid-template-columns: 300px minmax(0, 1fr);
             align-items: start;
             max-width: 1400px;
             margin: 0 auto;
@@ -418,7 +418,7 @@
         .insight-grid{
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 18px
+            column-gap: 30px;
         }
 
         .insight-grid p{
@@ -463,6 +463,42 @@
             text-transform: uppercase;
             color: var(--red);
             margin-bottom: 6px;
+        }
+
+        .radial-legend{
+            width: 320px;
+            margin: 8px auto 16px auto;
+            font-family: var(--font-body);
+        }
+
+        .radial-legend-title{
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .radial-legend-gradient{
+            height: 12px;
+            border-radius: 999px;
+            background: linear-gradient(
+                to right,
+                #fff4f0,
+                #fdd0c0,
+                #fca082,
+                #fb6a4a,
+                #de2d26,
+                #67000d
+            );
+        }
+
+        .radial-legend-scale{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+            font-size: 11px;
+            color: var(--text-muted);
         }
 
         .chart-card .vega-embed,
@@ -528,6 +564,8 @@
             padding: 0 2px;
         }
 
+    
+
     </style>
 </head>
 <body>
@@ -567,7 +605,7 @@
         <div class="sec-num">01</div>
         <div class="sec-text">
             <span class="sec-overline">Section One</span>
-            <span class="sec-title">Where the Damage Concentrates</span>
+            <span class="sec-title">Where Damage Concentrates First</span>
         </div>
         </div>
         <hr class="sec-line"/>
@@ -578,15 +616,10 @@
             <span class="left-overline">Flood Loss Structure</span>
             <h2 class="left-title">Behind Every Flooded State, The Damage Pattern Is Different</h2>
             <p class="left-body">
-                Flood losses in Malaysia are not only measured by how much money is lost,
-                but also by where the damage appears. Some states face heavier losses in
-                homes and infrastructure while others show stronger impacts in agriculture,
-                vehicles, businesses or manufacturing.
-            </p>
-            <p class="left-body">
-                This section breaks down the structure of flood damage from three angles:
-                where state-sector losses are concentrated, which damage category dominates
-                each state and which sector takes the largest share nationally.
+                Flood losses are not spread evenly across Malaysia. Some damage gathers around
+                specific <strong>states</strong>, some is concentrated inside one main
+                <strong>district</strong>, and some becomes more severe when measured against
+                the number of <strong>living quarters</strong> exposed.
             </p>
 
             <div class="source-block">
@@ -662,6 +695,40 @@
                     </div>
                 </div>
             </div>
+
+            <!--1.3 radial chart-->
+            <div class="fade-in">
+                <div class="chart-label">1.3 Loss Pressure by Residential Exposure</div>
+
+                <div class="chart-card">
+                    <div id="vis-exposure-radial"></div>
+
+                    <div class="radial-legend">
+                        <div class="radial-legend-title">Loss per 1000 Living Quarters</div>
+                        <div class="radial-legend-gradient"></div>
+                        <div class="radial-legend-scale">
+                            <span>Low</span>
+                            <span>High</span>
+                        </div>
+                    </div>
+
+                    <div class="chart-insight two-col-insight">
+                        <div class="chart-insight-title">Exposure changes the ranking of damage</div>
+
+                        <div class="insight-grid">
+                            <p>
+                                Longer arcs show higher flood loss per <strong>1,000 living quarters</strong>,
+                                revealing where damage is heavier relative to residential exposure.
+                            </p>
+
+                            <p>
+                                This view reduces the bias of raw totals, where larger states may appear more
+                                severe simply because they contain more homes and assets.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -725,7 +792,7 @@
             <h2 class="left-title">Some states carry more of the flood burden</h2>
             <p class="left-body">
                 Flood damage concentrates in specific parts of Malaysia rather than spreading evenly across the country. 
-                In 2024, the top three states account for more that two-thrids of national flood loss.
+                In 2024, the top three states account for more than two-thrids of national flood loss.
                 Selecting a state reveals whether the damage is driven mainly by homes, infrastructure, agriculture, vehicles, business premises or manufacturing. 
             </p>
             <div class="source-block">
@@ -935,6 +1002,10 @@
 
         vegaEmbed('#vis-symbol', 'flood_loss_symbol_chart.vg.json', {actions:false})
         .then(result => console.log("Top district symbol chart rendered successfully"))
+        .catch(console.error);
+
+        vegaEmbed('#vis-exposure-radial', 'flood_loss_exposure_radial.vg.json', {actions:false})
+        .then(result => console.log("Exposre radial chart rendered successfully"))
         .catch(console.error);
 
         vegaEmbed('#vis-heatmap', 'flood_loss_heatmap.vg.json', {actions:false})
