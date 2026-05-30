@@ -510,6 +510,7 @@
 
         #vis-heatmap,
         #vis-rainfall,
+        #vis-monthly-rainfall,
         #vis-map,
         #vis-lollipop-donut,
         #vis-stacked,
@@ -576,8 +577,8 @@
             Monsoon<span>Report</span>
         </div>
         <div class="nav-links">
-            <a class="nav-link" href="#sec-flow">01 · Flow</a>
-            <a class="nav-link" href="#sec-rainfall">02 · Rainfall</a>
+            <a class="nav-link" href="#sec-rainfall">01 · Rainfall</a>
+            <a class="nav-link" href="#sec-flow">02 · Damage</a>
             <a class="nav-link" href="#sec-loss">03 · Total Losses</a>
             <a class="nav-link" href="#sec-agricultural">04 · Agriculture</a>
         </div>
@@ -599,12 +600,82 @@
         </div>
     </header>
 
-    <!--01 flow-->
+    <!--01 rainfall-->
     <div class="section-sep">
-        <div class="sec-label" id="sec-flow">
+        <div class="sec-label" id="sec-rainfall">
         <div class="sec-num">01</div>
         <div class="sec-text">
             <span class="sec-overline">Section One</span>
+            <span class="sec-title">The Monsoon Pattern</span>
+        </div>
+        </div>
+        <hr class="sec-line"/>
+    </div>
+
+    <div class="scroll-layout">
+        <aside class="panel-left">
+            <span class="left-overline">Rainfall Overview</span>
+            <h2 class="left-title">When the Monsoon Builds</h2>
+            <p class="left-body">
+                Rain does not arrive evenly across the year. Each Northeast Monsoon season,
+                Malaysia enters a period of sustained pressure with heavier rainfall and more
+                frequent intense downpours. The late-2024 peak marks the strongest monthly surge
+                in the five-year record, revealing how seasonal monsoon cycles shape the country's flood risk.
+            </p>
+            <div class="source-block">
+                <strong>Data Source</strong><br/>
+                World Bank Group · Climate Change Knowledge Portal<br/>
+                <a href="https://climateknowledgeportal.worldbank.org/download-data">
+                    climateknowledgeportal.worldbank.org</a>
+            </div>
+        </aside>
+
+        <div class="panel-right">
+            <div class="fade-in">
+                <div class="chart-label">1.1 Monthly Precipitation & Heavy Rain Days</div>
+                <div class="chart-card">
+                    <div id="vis-rainfall"></div>
+                </div>
+            </div>
+
+            <!--1.2 seasonal cycle line chart-->
+            <div class="fade-in">
+                <div class="chart-label">1.2 Average Monthly Rainfall Profile</div>
+
+                <div class="chart-card">
+                    <div id="vis-monthly-rainfall"></div>
+
+                    <div class="chart-insight two-col-insight">
+                        <div class="chart-insight-title">November marks the monsoon build-up</div>
+
+                        <div class="insight-grid">
+                            <p>
+                                <strong>November</strong> records the highest average rainfall because it sits at the
+                                start of the Northeast Monsoon, when seasonal winds begin bringing sustained
+                                moisture toward Malaysia.
+                            </p>
+
+                            <p>
+                                The peak continues into <strong>December</strong>, showing that flood risk does not
+                                rise from one isolated wet month, but from a late-year build-up of repeated
+                                heavy rainfall.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </div>
+
+    <!--02 flow-->
+    <div class="section-sep">
+        <div class="sec-label" id="sec-flow">
+        <div class="sec-num">02</div>
+        <div class="sec-text">
+            <span class="sec-overline">Section Two</span>
             <span class="sec-title">Where Damage Concentrates First</span>
         </div>
         </div>
@@ -630,10 +701,10 @@
             </div>
         </aside>
 
-        <!--1.1 heatmap-->
+        <!--2.1 heatmap-->
         <div class="panel-right">
             <div class="fade-in">
-                <div class="chart-label">1.1 State x Sector Loss Matrix</div>
+                <div class="chart-label">2.1 State x Sector Loss Matrix</div>
                 <div class="chart-card">
                     <div class="chart-top-note">
                         <div class="note-kicker">Reading the Damage Pattern</div>
@@ -662,9 +733,9 @@
                 </div>
             </div>
 
-            <!--1.2 symbol chart-->
+            <!--2.2 symbol chart-->
             <div class="fade-in">
-                <div class="chart-label">1.2 Top-District Damage</div>
+                <div class="chart-label">2.2 Top-District Damage</div>
 
                 <div class="chart-card">
                     <div class="chart-top-note">
@@ -696,9 +767,9 @@
                 </div>
             </div>
 
-            <!--1.3 radial chart-->
+            <!--2.3 radial chart-->
             <div class="fade-in">
-                <div class="chart-label">1.3 Loss Pressure by Residential Exposure</div>
+                <div class="chart-label">2.3 Loss Pressure by Residential Exposure</div>
 
                 <div class="chart-card">
                     <div id="vis-exposure-radial"></div>
@@ -727,47 +798,6 @@
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!--02 rainfall-->
-    <div class="section-sep">
-        <div class="sec-label" id="sec-rainfall">
-        <div class="sec-num">02</div>
-        <div class="sec-text">
-            <span class="sec-overline">Section Two</span>
-            <span class="sec-title">The Monsoon Pattern</span>
-        </div>
-        </div>
-        <hr class="sec-line"/>
-    </div>
-
-    <div class="scroll-layout">
-        <aside class="panel-left">
-            <span class="left-overline">Rainfall Overview</span>
-            <h2 class="left-title">When the Monsoon Builds</h2>
-            <p class="left-body">
-                Rain does not arrive evenly across the year. Each Northeast Monsoon season,
-                Malaysia enters a period of sustained pressure with heavier rainfall and more
-                frequent intense downpours. The late-2024 peak marks the strongest monthly surge
-                in the five-year record, revealing how seasonal monsoon cycles shape the country's flood risk.
-            </p>
-            <div class="source-block">
-                <strong>Data Source</strong><br/>
-                World Bank Group · Climate Change Knowledge Portal<br/>
-                <a href="https://climateknowledgeportal.worldbank.org/download-data">
-                    climateknowledgeportal.worldbank.org</a>
-            </div>
-        </aside>
-
-        <div class="panel-right">
-            <div class="fade-in">
-                <div class="chart-label">2.1 Monthly Precipitation & Heavy Rain Days</div>
-                <div class="chart-card">
-                    <div id="vis-rainfall"></div>
                 </div>
             </div>
         </div>
@@ -1000,6 +1030,10 @@
             updateCombinedInsight("Kelantan");
         });
 
+        vegaEmbed('#vis-monthly-rainfall', 'rainfall_monthly_average.vg.json', {actions:false})
+        .then(result => console.log("Average monthly rainfall profile rendered successfully"))
+        .catch(console.error);
+
         vegaEmbed('#vis-symbol', 'flood_loss_symbol_chart.vg.json', {actions:false})
         .then(result => console.log("Top district symbol chart rendered successfully"))
         .catch(console.error);
@@ -1135,10 +1169,10 @@
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = [
             {
-                id: 'sec-flow', idx:0
+                id: 'sec-rainfall', idx:0
             },
             {
-                id:'sec-rainfall', idx:1
+                id:'sec-flow', idx:1
             },
             {
                 id:'sec-loss', idx:2

@@ -1,0 +1,308 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Months with Peak Rainfall",
+    "font": "Playfair Display",
+    "fontStyle": "normal",
+    "fontSize": 20,
+    "anchor": "start",
+    "color": "#0a2343"
+  },
+
+  "width": "container",
+  "height": 320,
+
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+
+  "data": {
+    "url": "cleaned_rainfall_2020_2024.csv"
+  },
+
+  "transform": [
+    {
+      "calculate": "toNumber(datum.Month)",
+      "as": "Month_Num"
+    },
+    {
+      "calculate": "toNumber(datum.pr)",
+      "as": "Rainfall_Num"
+    },
+    {
+      "calculate": "toNumber(datum.r20mm)",
+      "as": "Heavy_Rain_Days_Num"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "mean",
+          "field": "Rainfall_Num",
+          "as": "Avg_Rainfall"
+        },
+        {
+          "op": "mean",
+          "field": "Heavy_Rain_Days_Num",
+          "as": "Avg_Heavy_Rain_Days"
+        }
+      ],
+      "groupby": ["Month_Num", "MonthName"]
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "Rainfall_Rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "Avg_Rainfall",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "calculate": "datum.Month_Num == 11 || datum.Month_Num == 12 || datum.Month_Num == 1 || datum.Month_Num == 2 ? 'Northeast Monsoon' : 'Other months'",
+      "as": "Season"
+    }
+  ],
+
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {
+            "start": 11,
+            "end": 12.5,
+            "label": "Northeast Monsoon"
+          },
+          {
+            "start": 0.5,
+            "end": 2,
+            "label": "Northeast Monsoon"
+          }
+        ]
+      },
+      "mark": {
+        "type": "rect",
+        "color": "#e05a4a",
+        "opacity": 0.15
+      },
+      "encoding": {
+        "x": {
+          "field": "start",
+          "type": "quantitative",
+          "scale": {
+            "domain": [0.5, 12.5]
+          }
+        },
+        "x2": {
+          "field": "end"
+        },
+        "y": {
+          "value": 0
+        },
+        "y2": {
+          "value": 320
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "area",
+        "interpolate": "monotone",
+        "opacity": 0.6,
+        "line": false,
+        "color": "#d6e8f4"
+      },
+      "encoding": {
+        "x": {
+          "field": "Month_Num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [1, 12]
+          },
+          "axis": {
+            "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            "labelExpr": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.value - 1]",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "title": null,
+            "grid": false,
+            "domain": false,
+            "ticks": false
+          }
+        },
+        "y": {
+          "field": "Avg_Rainfall",
+          "type": "quantitative",
+          "title": "Average Rainfall (mm)",
+          "axis": {
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a"
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "line",
+        "interpolate": "monotone",
+        "stroke": "#2e86ab",
+        "strokeWidth": 3
+      },
+      "encoding": {
+        "x": {
+          "field": "Month_Num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [1, 12]
+          },
+          "axis": {
+            "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            "labelExpr": "['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.value - 1]",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "title": null,
+            "grid": false,
+            "domain": false,
+            "ticks": false
+          }
+        },
+        "y": {
+          "field": "Avg_Rainfall",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "stroke": "#ffffff",
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "x": {
+          "field": "Month_Num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [1, 12]
+          }
+        },
+        "y": {
+          "field": "Avg_Rainfall",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "Avg_Heavy_Rain_Days",
+          "type": "quantitative",
+          "title": "Average Heavy Rain Days",
+          "scale": {
+            "range": [10, 950]
+          },
+          "legend": {
+            "orient": "right",
+            "titleFont": "DM Sans",
+            "titleFontSize": 13,
+            "titleColor": "#0d1b2a",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50",
+            "format": ".1f",
+            "values":[1,2,3,4,5]
+          }
+        },
+        "color": {
+          "field": "Season",
+          "type": "nominal",
+          "title": "Season",
+          "scale": {
+            "domain": ["Northeast Monsoon", "Other months"],
+            "range": ["#b03022", "#2e86ab"]
+          },
+          "legend": {
+            "orient": "right",
+            "titleFont": "DM Sans",
+            "labelFont": "DM Sans",
+            "labelFontSize": 12,
+            "labelColor": "#2c3e50"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "MonthName",
+            "type": "nominal",
+            "title": "Month"
+          },
+          {
+            "field": "Avg_Rainfall",
+            "type": "quantitative",
+            "title": "Average Rainfall (mm)",
+            "format": ".1f"
+          },
+          {
+            "field": "Avg_Heavy_Rain_Days",
+            "type": "quantitative",
+            "title": "Average Heavy Rain Days",
+            "format": ".1f"
+          },
+          {
+            "field": "Season",
+            "type": "nominal",
+            "title": "Season"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.Rainfall_Rank == 1"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": -35,
+        "dy": -25,
+        "font": "DM Sans",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "fill": "#67000d"
+      },
+      "encoding": {
+        "x": {
+          "field": "Month_Num",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Avg_Rainfall",
+          "type": "quantitative"
+        },
+        "text": {
+          "value": "Rainfall Peak"
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "grid": false
+    }
+  }
+}

@@ -22,10 +22,11 @@
                 {
                     "data":{
                         "values":[
-                            {"start":"2020-10-01", "end":"2021-01-01", "season": "Northeast Monsoon"},
+                            {"start":"2020-01-01", "end":"2020-02-01", "season":"Northeast Monsoon"},
+                            {"start":"2020-10-01", "end":"2021-02-01", "season": "Northeast Monsoon"},
                             {"start":"2021-10-01", "end":"2022-02-01", "season": "Northeast Monsoon"},
-                            {"start":"2022-09-01", "end":"2023-01-01", "season": "Northeast Monsoon"},
-                            {"start":"2023-10-01", "end":"2024-01-01", "season": "Northeast Monsoon"},
+                            {"start":"2022-10-01", "end":"2023-02-01", "season": "Northeast Monsoon"},
+                            {"start":"2023-10-01", "end":"2024-02-01", "season": "Northeast Monsoon"},
                             {"start":"2024-10-01", "end":"2024-12-01", "season": "Northeast Monsoon"}
                     ]
                     },
@@ -41,8 +42,8 @@
                     ],
                     "mark":{
                         "type": "rect",
-                        "color":"#d6e8f4",
-                        "opacity":0.5
+                        "color":"#e05a4a",
+                        "opacity":0.15
                     },
                     "encoding": {
                         "x":{
@@ -337,9 +338,9 @@
                     },
                     "mark":{
                         "type": "rect",
-                        "fill":"#d6e8f4",
-                        "stroke":"#b8cddd",
-                        "strokeWidth":1
+                        "fill":"#e05a4a",
+                        "strokeWidth":1,
+                        "fillOpacity":0.25
                     },
                     "encoding": {
                         "x":{
