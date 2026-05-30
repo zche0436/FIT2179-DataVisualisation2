@@ -275,28 +275,6 @@
         .map-card{
             padding: 10px;
         }
-        #vis-map {width: 100%;}
-
-        #vis-map .vega-embed,
-        #vis-map .vega-embed > div,
-        #vis-map .vega-embed canvas,
-        #vis-map .vega-embed svg{
-            max-width: none;
-            width: 100%;}
-
-        #vis-stacked {
-        width: 100%;
-        min-width: 0;
-        }
-        #vis-stacked .vega-embed,
-        #vis-stacked .vega-embed > div,
-        #vis-stacked .vega-embed canvas,
-        #vis-stacked .vega-embed svg {
-            padding-bottom: 0;
-            max-width: none ;
-            width: 100% ;
-            min-width: 0 ;
-        }
 
         /*footer*/
         .footer{
@@ -348,6 +326,14 @@
         }
         .fade-in.visible { opacity: 1; transform: none;}
 
+        .vega-bindings{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin: 8px 0 0 30px;
+            width: fit-content;
+        }
+
         .vega-bind{
             position: relative;
             z-index: 3;
@@ -357,12 +343,13 @@
             padding: 8px 16px;
             border-radius: 8px;
             border: 1px solid rgba(220, 228, 237, 0.8);
-            margin: -8px 0 0 30px;
+            margin:  0 ;
             font-family: 'DM Sans', sans-serif;
             font-size: 13px;
             width: fit-content;
             color: #2c3e50;
             display: flex;
+            gap: 4px;
         }
 
         .vega-bind label{
@@ -390,6 +377,82 @@
             pointer-events: none;
             line-height: 0;
             overflow: hidden;
+        }
+
+        .chart-insight{
+            margin: 12px 18px 14px;
+            padding: 14px 16px;
+            background: #f8fafc;
+            border-left: 4px solid var(--red);
+            border-radius: 8px;
+        }
+
+        .chart-insight-title{
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .chart-insight p{
+            font-size: 13px;
+            line-height: 1.65;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        .chart-footnote{
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        #vis-map {width: 100%;}
+
+        #vis-map .vega-embed,
+        #vis-map .vega-embed > div,
+        #vis-map .vega-embed canvas,
+        #vis-map .vega-embed svg{
+            max-width: none;
+            width: 100%;}
+
+        #vis-stacked {
+        width: 100%;
+        min-width: 0;
+        }
+        #vis-stacked .vega-embed,
+        #vis-stacked .vega-embed > div,
+        #vis-stacked .vega-embed canvas,
+        #vis-stacked .vega-embed svg {
+            padding-bottom: 0;
+            max-width: none ;
+            width: 100% ;
+            min-width: 0 ;
+        }
+
+        #vis-combined .vega-bindings{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            margin: -24px 0 6px 30px;
+            width: fit-content;
+        }
+        #vis-combined .vega-bind{
+            margin: 0;
+            padding: 4px 12px;
+            min-height: 30px;
+            border-radius: 8px;
+            font-size: 13px;
+            gap: 5px;
+        }
+        #vis-combined .vega-bind select{
+            font-size: 13px;
+            padding: 0 2px;
         }
 
     </style>
@@ -566,7 +629,9 @@
             <span class="left-overline">Agricultural Deep Dive</span>
             <h2 class="left-title">The Harvest Lost to Floodwaters</h2>
             <p class="left-body">
-                Malaysia's states .........
+                Agricultural flood loss is first compared across all states, then narrowed into a selected-state view. 
+                The stacked chart shows how each state’s agricultural damage is divided by category, while the detail chart 
+                reveals the actual loss value and whether each category rose or fell from 2024 to 2025.
             </p>
             <div class="source-block">
                 <strong>Data Source</strong><br/>
@@ -578,7 +643,7 @@
 
         <div class="panel-right">
             <div class="fade-in">
-                <div class="chart-label">4.1 Agricultural Loss by State & Category</div>
+                <div class="chart-label">4.1 Agricultural Loss Composition Across States</div>
                 <div class="chart-card" style="position: relative; overflow: hidden;">
                     <div id="vis-stacked"></div>
                     
@@ -610,9 +675,20 @@
 
             </div>
             <div class="fade-in">
-                <div class="chart-label">4.2 Category Detail & Year-on-Year Change</div>
+                <div class="chart-label">4.2 Selected-State Damage Profile & Year-on-Year Shift</div>
                 <div class="chart-card">
                     <div id="vis-combined"></div>
+
+                    <div class="chart-insight">
+                        <div class="chart-insight-title">Reading the Shift</div>
+                        <p id="combined-insight-text">
+                            · Select a state to see which agricultural category changed the most between 2024 and 2025 ·
+                        </p>
+                        <div class="chart-footnote">
+                            The dashed zero line in "How Loss Shifted" marks no change from 2024 to 2025
+                            Bars above the line indicate higher losses in 2025; bars below the line indicate reduced losses
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -647,6 +723,67 @@
         let stackedBarView = null;
         let sankeyView = null;
 
+        const agriCategories = [
+            "Paddy",
+            "Crops",
+            "Fisheries",
+            "Livestock",
+            "Fisherman",
+            "Agro-entrepreneur",
+            "High Value Commodity"
+        ];
+
+        let agriData = [];
+
+        function formatRM(value){
+            return Math.abs(value).toLocaleString("en-MY", {
+                maximumFractionDigits: 0
+            });
+        }
+
+        function updateCombinedInsight(state){
+            if (!agriData.length) return;
+
+            const row2024 = agriData.find(d => d.State === state && +d.Year === 2024);
+            const row2025 = agriData.find(d => d.State === state && +d.Year === 2025);
+
+            const target = document.getElementById("combined-insight-text");
+            if (!target || !row2024 || !row2025) return;
+
+            const changes = agriCategories.map(cat => {
+                const loss2024 = +row2024[cat] || 0;
+                const loss2025 = +row2025[cat] || 0;
+
+                return {
+                    category: cat,
+                    loss2024,
+                    loss2025,
+                    change: loss2025 - loss2024
+                };
+            }).filter(d => d.loss2024 > 0 || d.loss2025 > 0);
+
+            if (!changes.length) return;
+
+            const topLoss = [...changes].sort((a, b) => b.loss2024 - a.loss2024)[0];
+            const largestShift = [...changes].sort((a, b) => Math.abs(b.change) - Math.abs(a.change))[0];
+
+            const direction = largestShift.change >= 0 ? "increased" : "decreased";
+            const directionMeaning = largestShift.change >= 0 ? "higher" : "lower";
+
+            target.innerHTML = `
+                In <strong>${state}</strong>, the largest 2024 agricultural loss came from 
+                <strong>${topLoss.category}</strong>. From 2024 to 2025, the biggest shift was 
+                <strong>${largestShift.category}</strong>, which ${direction} by 
+                <strong>RM ${formatRM(largestShift.change)}'000</strong>. 
+                This means its 2025 loss was ${directionMeaning} than the previous year.
+            `;
+        }
+
+        vega.loader().load("cleaned_floodloss_agricultural.csv").then(text => {
+            agriData = vega.read(text, {type: "csv", parse: "auto"});
+            updateCombinedInsight("Kelantan");
+        });
+
         vegaEmbed('#vis-sankey', 'flood_loss_sankey.vg.json', {actions:false})
         .then(result => {sankeyView = result.view;});
 
@@ -676,6 +813,7 @@
 
                     if (combinedView){
                         combinedView.signal('state_select', selectedState).run();
+                        updateCombinedInsight(selectedState);
                     }
 
                 }
@@ -705,6 +843,16 @@
                 }
                 if (selectedState){
                     result.view.signal('state_select', selectedState).run();
+
+                    if (stackedBarView){
+                        stackedBarView.signal('state_select', selectedState).run();
+                    }
+
+                    if (combinedView){
+                        combinedView.signal('state_select', selectedState).run();
+                    }
+
+                    updateCombinedInsight(selectedState);
                 }
             });
         })
@@ -732,6 +880,7 @@
 
                     if (combinedView){
                         combinedView.signal('state_select', selectedState).run();
+                        updateCombinedInsight(selectedState);
                     }
                 }
 

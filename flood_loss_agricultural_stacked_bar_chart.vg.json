@@ -173,7 +173,7 @@
         },
         "opacity": {
           "condition": {
-            "test": "state_click && state_click.State && length(state_click.State) > 0 ? indexof(state_click.State, datum.State) >= 0 : datum.State == 'Kelantan'",
+            "test": "datum.State == state_select",
             "value": 1
           },
           "value": 0.3

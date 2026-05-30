@@ -184,9 +184,9 @@
             "size": {
               "condition": {
                 "test": "datum.State == state_select",
-                "value": 300
+                "value": 350
               },
-              "value": 150
+              "value": 220
             },
             "tooltip": [
               {
@@ -221,7 +221,7 @@
         "anchor": "start",
         "color": "#0a2343"
       },
-      "width": 380,
+      "width": 390,
       "height": 380,
       "transform": [
         {
