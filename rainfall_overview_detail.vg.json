@@ -132,59 +132,7 @@
                         ]
                     }
                 },
-                {
-                    "mark":{
-                        "type": "line",
-                        "color": "#5ba4c4",
-                        "strokeWidth": 2,
-                        "strokeDash":[5, 3],
-                        "clip":true
-                    },
-                    "encoding": {
-                        "x":{
-                            "field":"YearMonth",
-                            "type": "temporal",
-                            "scale":{"domain":{
-                                "param": "brush"
-                            }}
-                        },
-                        "y":{
-                            "field":"r20mm",
-                            "type": "quantitative",
-                            "axis":{
-                                "title":"Heavy Rain Days",
-                                "titleFont":"DM Sans",
-                                "titleFontSize": 13,
-                                "titleColor":"#5ba4c4",
-                                "labelFont": "DM Sans",
-                                "labelFontSize": 12,
-                                "labelColor":"#5ba4c4",
-                                "grid": false,
-                                "orient":"right"
-                            }
-                        },
-                        "tooltip":[
-                            {
-                                "field":"YearMonth",
-                                "type": "temporal",
-                                "title": "Month",
-                                "format":"%b %Y"
-                            },
-                            {
-                                "field":"pr",
-                                "type": "quantitative",
-                                "title":"Precipitation (mm)",
-                                "format": ".1f"
-                            },
-                            {
-                                "field":"r20mm",
-                                "type": "quantitative",
-                                "title":"Heavy Rain Days",
-                                "format":".1f"
-                            }
-                        ]
-                    }
-                },
+
                 {
                     "transform": [
                         {
@@ -254,7 +202,6 @@
                     "type": "temporal",
                 "scale":{"domain":{"param": "brush"}}},
                 "y":{"field":"pr",
-                "title":null,
             "type": "quantitative"},
             "tooltip":[
                             {
@@ -322,8 +269,6 @@
             },
             "y": {
               "field": "pr",
-              "title":null,
-              "axis":null,
               "type": "quantitative"
             }
           }
@@ -375,10 +320,7 @@
                 "text":{"field":"label"}
                     }
                 }
-            ],
-            "resolve": {
-                "scale": {"y": "independent"}
-            }
+            ]
         },
         {
             "width": 900,
